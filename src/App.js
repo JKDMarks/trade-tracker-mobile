@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Grid, Search } from 'semantic-ui-react'
+import _ from 'lodash'
 import './App.css'
 
-import _ from 'lodash'
-import { Grid, Search } from 'semantic-ui-react'
+import { useTrades } from './useCustom'
 
 function App() {
   const [allCards, setAllCards] = useState([])
-  const [searchCards, setSearchCards] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [searchResult, setSearchResult] = useState([])
+  const [addCard, setAddCard] = useState(null)
+  const [leftTrades, addToLeft] = useTrades()
+  const [rightTrades, addToRight] = useTrades()
 
   useEffect(() => {
     async function fetchAllCards() {
@@ -21,10 +24,17 @@ function App() {
   }, [])
 
   const handleInputChange = (e, { value }) => {
-    setIsLoading(true)
+    setAddCard(null)
     const re = new RegExp(value, 'i')
-    setSearchCards(allCards.filter(card => re.test(card)).slice(0, 5).map(name => ({ name })))
-    setIsLoading(false)
+    setSearchResult(allCards.filter(card => re.test(card)).slice(0, 25).map((name, i) => ({ key: i, name, title: name })))
+  }
+
+  const addToTrade = (columnName) => {
+    if (columnName === 'left') {
+      addToLeft(addCard.name)
+    } else if (columnName === 'right') {
+      addToRight(addCard.name)
+    }
   }
 
   return (
@@ -36,16 +46,40 @@ function App() {
 
         <Grid.Row style={{backgroundColor: 'green'}}>
           <Search
-            onSearchChange={_.debounce(handleInputChange, 1000)}
-            results={searchCards}
-            resultRenderer={card => <p>{card.name}</p>}
-            loading={isLoading}
+            onSearchChange={handleInputChange}
+            onResultSelect={(e, { result }) => setAddCard(result)}
+            results={searchResult}
           />
         </Grid.Row>
 
-        <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
-          <Grid.Column className='p-1' style={{backgroundColor: 'blue', textAlign: 'center'}}>⏪</Grid.Column>
-          <Grid.Column className='p-1' style={{backgroundColor: 'red', textAlign: 'center'}}>⏩</Grid.Column>
+        {
+          addCard ? (
+            <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
+              <Grid.Column
+                className='p-1'
+                style={{backgroundColor: 'blue', textAlign: 'center'}}
+                onClick={() => addToTrade('left')}
+              >⏪</Grid.Column>
+              <Grid.Column
+                className='p-1'
+                style={{backgroundColor: 'red', textAlign: 'center'}}
+                onClick={() => addToTrade('right')}
+              >⏩</Grid.Column>
+            </Grid.Row>
+          ) : (null)
+        }
+
+        <Grid.Row className='py-0' columns={2}>
+          <Grid.Column textAlign='center'>
+            {
+              leftTrades.map(card => <Grid.Row>{card.name}</Grid.Row>)
+            }
+          </Grid.Column>
+          <Grid.Column textAlign='center'>
+            {
+              rightTrades.map(card => <Grid.Row>{card.name}</Grid.Row>)
+            }
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </div>
