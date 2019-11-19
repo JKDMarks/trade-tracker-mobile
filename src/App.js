@@ -8,7 +8,7 @@ import { useTrades } from './useCustom'
 function App() {
   const [allCards, setAllCards] = useState([])
   const [searchResult, setSearchResult] = useState([])
-  const [addCard, setAddCard] = useState(null)
+  const [resultCard, setResultCard] = useState(null)
   const [leftTrades, addToLeft] = useTrades()
   const [rightTrades, addToRight] = useTrades()
 
@@ -24,16 +24,16 @@ function App() {
   }, [])
 
   const handleInputChange = (e, { value }) => {
-    setAddCard(null)
+    setResultCard(null)
     const re = new RegExp(value, 'i')
     setSearchResult(allCards.filter(card => re.test(card)).slice(0, 25).map((name, i) => ({ key: i, name, title: name })))
   }
 
   const addToTrade = (columnName) => {
     if (columnName === 'left') {
-      addToLeft(addCard.name)
+      addToLeft(resultCard.name)
     } else if (columnName === 'right') {
-      addToRight(addCard.name)
+      addToRight(resultCard.name)
     }
   }
 
@@ -47,13 +47,13 @@ function App() {
         <Grid.Row style={{backgroundColor: 'green'}}>
           <Search
             onSearchChange={handleInputChange}
-            onResultSelect={(e, { result }) => setAddCard(result)}
+            onResultSelect={(e, { result }) => setResultCard(result)}
             results={searchResult}
           />
         </Grid.Row>
 
         {
-          addCard ? (
+          resultCard ? (
             <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
               <Grid.Column
                 className='p-1'
@@ -69,15 +69,15 @@ function App() {
           ) : (null)
         }
 
-        <Grid.Row className='py-0' columns={2}>
-          <Grid.Column textAlign='center'>
+        <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
+          <Grid.Column className='trade-col'>
             {
-              leftTrades.map(card => <Grid.Row>{card.name}</Grid.Row>)
+              leftTrades.map(card => <div>{card.name}</div>)
             }
           </Grid.Column>
-          <Grid.Column textAlign='center'>
+          <Grid.Column className='trade-col'>
             {
-              rightTrades.map(card => <Grid.Row>{card.name}</Grid.Row>)
+              rightTrades.map(card => <div>{card.name}</div>)
             }
           </Grid.Column>
         </Grid.Row>
