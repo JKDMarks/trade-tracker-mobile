@@ -9,7 +9,7 @@ export function useTrades() {
       const resp = await fetch(`https://api.scryfall.com/cards/search?q="${cardName}"&unique=prints`)
       const json = await resp.json()
 
-      setCards([ ...cards, json.data ])
+      setCards([ json.data, ...cards ])
     }
 
     fetchCard(cardName)
