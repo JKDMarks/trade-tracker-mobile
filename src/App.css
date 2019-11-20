@@ -4,6 +4,7 @@ html, body {
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
+  max-height: 100vh;
 }
 
 html, body {
@@ -24,4 +25,19 @@ html, body {
 .results {
   max-height: 50vh;
   overflow-y: scroll;
+}
+
+.trade-col {
+  max-height: calc(100vh - 152px) !important;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.trade-card {
+  height: 75px;
+  padding: 5px;
+  border: 1px solid gray;
 }
