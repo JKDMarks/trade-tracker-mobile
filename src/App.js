@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Search, Modal, Dropdown } from 'semantic-ui-react'
 import './App.css'
-import './keyrune.css'
 
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
