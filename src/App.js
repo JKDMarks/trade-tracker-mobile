@@ -18,6 +18,7 @@ const rightExample = exampleTrade.map(editions => {
 function App() {
   ////////// useState DECLARATIONS //////////
   const [allCardNames, setAllCardNames] = useState([])
+  const [query, setQuery] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
   const [leftTrades, setLeftTrades, addToLeft] = useTrades()
@@ -26,7 +27,7 @@ function App() {
   const [overlayContent, setOverlayContent] = useState({})
 
 
-  ////////// useEffect DECLARATIONS //////////
+  ////////// useEffect BLOCKS //////////
   useEffect(() => {
     async function fetchAllCards() {
       const resp = await fetch('https://api.scryfall.com/catalog/card-names')
@@ -40,22 +41,13 @@ function App() {
     setRightTrades([...rightExample, ...rightExample, ...rightExample, ...rightExample])
   }, [])
 
-  useEffect(() => {
-    if (overlayContent.card) {
-      const { card, tradeIdx } = overlayContent
-
-      if (card.isLeft) {
-        setOverlayContent({ card: leftTrades[tradeIdx], tradeIdx })
-      } else {
-        setOverlayContent({ card: rightTrades[tradeIdx], tradeIdx })
-      }
-    }
-  }, [leftTrades, rightTrades])
-
 
   ////////// SEARCH FUNCTIONS //////////
   const handleInputChange = (e, { value }) => {
     setResultCard(null)
+    setQuery(value)
+
+    // setSearchResult TO ONLY THE FIRST 25 CARDS THAT MATCH THE QUERY
     const re = new RegExp(value, 'i')
     setSearchResult(allCardNames.filter(card => re.test(card)).slice(0, 25).map((name, i) => ({ key: i, name, title: name })))
   }
@@ -67,6 +59,9 @@ function App() {
       } else if (columnName === 'right') {
         addToRight(resultCard.name, false)
       }
+
+      setResultCard(null)
+      setQuery('')
     }
   }
 
@@ -91,6 +86,8 @@ function App() {
         cardCopy,
         ...leftTrades.slice(tradeIdx + 1)
       ])
+
+      setOverlayContent({ card: cardCopy, tradeIdx })
     } else {
       const cardCopy = { ...rightTrades[tradeIdx], setIdx }
 
@@ -99,6 +96,8 @@ function App() {
         cardCopy,
         ...rightTrades.slice(tradeIdx + 1)
       ])
+
+      setOverlayContent({ card: cardCopy, tradeIdx })
     }
   }
 
@@ -114,8 +113,9 @@ function App() {
         <Grid.Row style={{backgroundColor: 'green'}}>
           <Search
             onSearchChange={handleInputChange}
-            onResultSelect={(e, { result }) => setResultCard(result)}
+            onResultSelect={(e, { result }) => {setResultCard(result); setQuery(result.name);}}
             results={searchResult}
+            value={query}
           />
         </Grid.Row>
 
@@ -137,12 +137,12 @@ function App() {
         <Grid.Row style={{position: 'relative', maxWidth: '100vw'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
             {leftTrades.map((card, tradeIdx) => (
-              <Card card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
+              <Card key={`left-${tradeIdx}`} card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col px-0'>
             {rightTrades.map((card, tradeIdx) => (
-              <Card card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
+              <Card key={`right-${tradeIdx}`} card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
             ))}
           </Grid.Column>
         </Grid.Row>
