@@ -11,6 +11,39 @@ html, body {
   background-color: #F8F8F8
 }
 
+.vert-ctr-parent {
+  position: relative;
+}
+
+.vert-ctr {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  padding: 0 5px;
+}
+
+.ctr-txt {
+  text-align: center !important;
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ui.active.modal {
+  height: 250px;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+.ui.active.modal .content {
+  height: 100%;
+}
+
 .header {
   text-align: center;
   background-color: lightgray;
@@ -38,10 +71,14 @@ html, body {
 
 .trade-card {
   height: 75px;
-  padding: 5px;
+  /* padding: 5px; */
   border: 1px solid gray;
 }
 
 .trade-card:active {
   background-color: lightgray;
+}
+
+.trade-card-text {
+  max-width: calc(50vw - 38px);
 }

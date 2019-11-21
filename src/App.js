@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Search } from 'semantic-ui-react'
-import _ from 'lodash'
+import { Grid, Search, Modal } from 'semantic-ui-react'
 import './App.css'
 import './keyrune.css'
 
@@ -13,6 +12,8 @@ function App() {
   const [resultCard, setResultCard] = useState(null)
   const [leftTrades, addToLeft] = useTrades()
   const [rightTrades, addToRight] = useTrades()
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
+  const [overlayContent, setOverlayContent] = useState([])
 
   useEffect(() => {
     async function fetchAllCards() {
@@ -41,13 +42,21 @@ function App() {
     }
   }
 
-  console.log('left', leftTrades)
-  console.log('right', rightTrades)
+  const openOverlay = (editions) => {
+    setIsOverlayOpen(true)
+  }
+
+  const closeOverlay = () => {
+    setIsOverlayOpen(false)
+  }
+
+  // console.log('left', leftTrades)
+  // console.log('right', rightTrades)
 
   return (
     <div className='App'>
       <Grid centered>
-        <Grid.Row centered className='header'>
+        <Grid.Row className='header'>
           <h1>Trade Tracker</h1>
         </Grid.Row>
 
@@ -59,36 +68,52 @@ function App() {
           />
         </Grid.Row>
 
-        {
-          true ? (
-            <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
-              <Grid.Column
-                className='p-1'
-                style={{backgroundColor: 'blue', textAlign: 'center'}}
-                onClick={() => addToTrade('left')}
-              >⏪</Grid.Column>
-              <Grid.Column
-                className='p-1'
-                style={{backgroundColor: 'red', textAlign: 'center'}}
-                onClick={() => addToTrade('right')}
-              >⏩</Grid.Column>
-            </Grid.Row>
-          ) : (null)
-        }
+
+        <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
+          <Grid.Column
+            className='p-1 ctr-txt'
+            style={{backgroundColor: 'blue'}}
+            onClick={() => addToTrade('left')}
+          >⏪</Grid.Column>
+          <Grid.Column
+            className='p-1 ctr-txt'
+            style={{backgroundColor: 'red'}}
+            onClick={() => addToTrade('right')}
+          >⏩</Grid.Column>
+        </Grid.Row>
+
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col pr-0'>
-            {leftTrades.map(card => (
-              <Card card={card} />
+            {leftTrades.map(editions => (
+              <Card editions={editions} openOverlay={openOverlay} />
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col pl-0 mr-0'>
-            {rightTrades.map(card => (
-              <Card card={card} />
+            {rightTrades.map(editions => (
+              <Card editions={editions} openOverlay={openOverlay} />
             ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
+
+      <Modal className='ctr-txt' open={isOverlayOpen} onClose={closeOverlay}>
+        <Modal.Content className='vert-ctr-parent'>
+          <Grid centered columns={2} className='vert-ctr'>
+            <Grid.Row>
+              <Grid.Column>
+                <div>hi</div>
+                <div>hi</div>
+              </Grid.Column>
+              <Grid.Column>hi2</Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>hi3</Grid.Column>
+              <Grid.Column>hi4</Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Modal.Content>
+      </Modal>
     </div>
   )
 }
