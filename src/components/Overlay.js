@@ -19,7 +19,11 @@ function Overlay({ editions, isOpen, closeOverlay, editTrade }) {
                       {
                         editions.map((edition, i) => (
                           <Dropdown.Item value={i} onClick={(e, { value }) => editTrade(isLeft, tradeIdx, value, isFoil)}
-                            content={<div>{edition.set_name}</div>}
+                            content={<div>
+                              {edition.set_name}
+                              &nbsp;
+                              <i className={`ss ss-2x ss-${edition.set}`} />
+                            </div>}
                             selected={editions.setIdx === i}
                           />
                         ))
