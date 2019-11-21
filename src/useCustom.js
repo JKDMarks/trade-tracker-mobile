@@ -25,5 +25,5 @@ export function useTrades() {
     fetchCard(cardName)
   }
 
-  return [cards, addCard]
+  return [cards, setCards, addCard]
 }

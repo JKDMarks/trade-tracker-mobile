@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Search, Modal } from 'semantic-ui-react'
+import { Grid, Search, Modal, Dropdown } from 'semantic-ui-react'
 import './App.css'
 import './keyrune.css'
 
 import { useTrades } from './useCustom'
-import { Card } from './components'
+import { Card, Overlay } from './components'
 
 function App() {
   const [allCardNames, setAllCardNames] = useState([])
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
-  const [leftTrades, addToLeft] = useTrades()
-  const [rightTrades, addToRight] = useTrades()
+  const [leftTrades, setLeftTrades, addToLeft] = useTrades()
+  const [rightTrades, setRightTrades, addToRight] = useTrades()
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState([])
 
@@ -42,12 +42,34 @@ function App() {
     }
   }
 
-  const openOverlay = (editions) => {
+  const editTrade = (isLeft, tradeIdx, setIdx, isFoil) => {
+    if (isLeft) {
+      const cardCopy = [...leftTrades[tradeIdx]]
+      cardCopy.isLeft = isLeft
+      cardCopy.tradeIdx = tradeIdx
+      cardCopy.setIdx = setIdx
+      cardCopy.isFoil = isFoil
+
+      setLeftTrades([
+        ...leftTrades.slice(0, tradeIdx),
+        cardCopy,
+        ...leftTrades.slice(tradeIdx + 1)
+      ])
+    } else {
+
+    }
+  }
+
+  const openOverlay = (editions, isLeft, tradeIdx) => {
     setIsOverlayOpen(true)
+    editions.isLeft = isLeft
+    editions.tradeIdx = tradeIdx
+    setOverlayContent(editions)
   }
 
   const closeOverlay = () => {
     setIsOverlayOpen(false)
+    setOverlayContent([])
   }
 
   // console.log('left', leftTrades)
@@ -83,37 +105,21 @@ function App() {
         </Grid.Row>
 
 
-        <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
-          <Grid.Column className='trade-col pr-0'>
-            {leftTrades.map(editions => (
-              <Card editions={editions} openOverlay={openOverlay} />
+        <Grid.Row style={{position: 'relative', maxWidth: '100vw'}} className='py-0' columns={2}>
+          <Grid.Column className='trade-col px-0'>
+            {leftTrades.map((editions, tradeIdx) => (
+              <Card editions={editions} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
             ))}
           </Grid.Column>
-          <Grid.Column className='trade-col pl-0 mr-0'>
-            {rightTrades.map(editions => (
-              <Card editions={editions} openOverlay={openOverlay} />
+          <Grid.Column className='trade-col px-0'>
+            {rightTrades.map((editions, tradeIdx) => (
+              <Card editions={editions} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
             ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
-      <Modal className='ctr-txt' open={isOverlayOpen} onClose={closeOverlay}>
-        <Modal.Content className='vert-ctr-parent'>
-          <Grid centered columns={2} className='vert-ctr'>
-            <Grid.Row>
-              <Grid.Column>
-                <div>hi</div>
-                <div>hi</div>
-              </Grid.Column>
-              <Grid.Column>hi2</Grid.Column>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Column>hi3</Grid.Column>
-              <Grid.Column>hi4</Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Modal.Content>
-      </Modal>
+      <Overlay editions={overlayContent} isOpen={isOverlayOpen} closeOverlay={closeOverlay} editTrade={editTrade} />
     </div>
   )
 }

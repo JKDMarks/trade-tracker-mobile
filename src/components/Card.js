@@ -1,12 +1,14 @@
 import React from 'react'
 
-function Card({ editions, openOverlay }) {
+function Card({ editions, openOverlay, isLeft, tradeIdx }) {
   let { setIdx } = editions
+
+  console.log(editions)
 
   return (
     <div
       className='trade-card vert-ctr-parent'
-      onClick={() => openOverlay(editions)}
+      onClick={() => openOverlay(editions, isLeft, tradeIdx)}
     >
       <div className='vert-ctr'>
         <div className='trade-card-text ellipsis' style={{fontSize: '1em', float: 'left'}}>
