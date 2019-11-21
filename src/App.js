@@ -6,6 +6,16 @@ import './keyrune.css'
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
 
+import { exampleTrade } from './helpers'
+
+const leftExample = exampleTrade.map(editions => {
+  return { editions, setIdx: 0, isFoil: false, isLeft: true }
+})
+
+const rightExample = exampleTrade.map(editions => {
+  return { editions, setIdx: 0, isFoil: false, isLeft: false }
+})
+
 function App() {
   const [allCardNames, setAllCardNames] = useState([])
   const [searchResult, setSearchResult] = useState([])
@@ -13,7 +23,7 @@ function App() {
   const [leftTrades, setLeftTrades, addToLeft] = useTrades()
   const [rightTrades, setRightTrades, addToRight] = useTrades()
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
-  const [overlayContent, setOverlayContent] = useState([])
+  const [overlayContent, setOverlayContent] = useState({})
 
   useEffect(() => {
     async function fetchAllCards() {
@@ -24,6 +34,8 @@ function App() {
     }
 
     fetchAllCards()
+    setLeftTrades([...leftExample, ...leftExample])
+    setRightTrades([...rightExample, ...rightExample, ...rightExample, ...rightExample])
   }, [])
 
   const handleInputChange = (e, { value }) => {
@@ -35,41 +47,45 @@ function App() {
   const addToTrade = (columnName) => {
     if (resultCard) {
       if (columnName === 'left') {
-        addToLeft(resultCard.name)
+        addToLeft(resultCard.name, true)
       } else if (columnName === 'right') {
-        addToRight(resultCard.name)
+        addToRight(resultCard.name, false)
       }
     }
   }
 
-  const editTrade = (isLeft, tradeIdx, setIdx, isFoil) => {
-    if (isLeft) {
-      const cardCopy = [...leftTrades[tradeIdx]]
-      cardCopy.isLeft = isLeft
-      cardCopy.tradeIdx = tradeIdx
-      cardCopy.setIdx = setIdx
-      cardCopy.isFoil = isFoil
+  const editCardSet = (card, tradeIdx, setIdx) => {
+    if (card.isLeft) {
+      const cardCopy = { ...leftTrades[tradeIdx], setIdx }
 
       setLeftTrades([
         ...leftTrades.slice(0, tradeIdx),
         cardCopy,
         ...leftTrades.slice(tradeIdx + 1)
       ])
-    } else {
 
+      setOverlayContent({ card: cardCopy, tradeIdx })
+    } else {
+      const cardCopy = { ...rightTrades[tradeIdx], setIdx }
+
+      setRightTrades([
+        ...rightTrades.slice(0, tradeIdx),
+        cardCopy,
+        ...rightTrades.slice(tradeIdx + 1)
+      ])
+
+      setOverlayContent({ card: cardCopy, tradeIdx })
     }
   }
 
-  const openOverlay = (editions, isLeft, tradeIdx) => {
+  const openOverlay = (card, tradeIdx) => {
     setIsOverlayOpen(true)
-    editions.isLeft = isLeft
-    editions.tradeIdx = tradeIdx
-    setOverlayContent(editions)
+    setOverlayContent({card, tradeIdx})
   }
 
   const closeOverlay = () => {
     setIsOverlayOpen(false)
-    setOverlayContent([])
+    setOverlayContent({})
   }
 
   // console.log('left', leftTrades)
@@ -107,19 +123,19 @@ function App() {
 
         <Grid.Row style={{position: 'relative', maxWidth: '100vw'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
-            {leftTrades.map((editions, tradeIdx) => (
-              <Card editions={editions} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
+            {leftTrades.map((card, tradeIdx) => (
+              <Card card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col px-0'>
-            {rightTrades.map((editions, tradeIdx) => (
-              <Card editions={editions} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
+            {rightTrades.map((card, tradeIdx) => (
+              <Card card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
             ))}
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
-      <Overlay editions={overlayContent} isOpen={isOverlayOpen} closeOverlay={closeOverlay} editTrade={editTrade} />
+      <Overlay card={overlayContent.card} tradeIdx={overlayContent.tradeIdx} isOpen={isOverlayOpen} closeOverlay={closeOverlay} editCardSet={editCardSet} />
     </div>
   )
 }
