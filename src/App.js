@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Search, Modal, Dropdown } from 'semantic-ui-react'
+import { Grid, Search } from 'semantic-ui-react'
 import './App.css'
 
 import { useTrades } from './useCustom'
@@ -16,6 +16,7 @@ const rightExample = exampleTrade.map(editions => {
 })
 
 function App() {
+  ////////// useState DECLARATIONS //////////
   const [allCardNames, setAllCardNames] = useState([])
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
@@ -24,6 +25,8 @@ function App() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
 
+
+  ////////// useEffect DECLARATIONS //////////
   useEffect(() => {
     async function fetchAllCards() {
       const resp = await fetch('https://api.scryfall.com/catalog/card-names')
@@ -37,6 +40,20 @@ function App() {
     setRightTrades([...rightExample, ...rightExample, ...rightExample, ...rightExample])
   }, [])
 
+  useEffect(() => {
+    if (overlayContent.card) {
+      const { card, tradeIdx } = overlayContent
+
+      if (card.isLeft) {
+        setOverlayContent({ card: leftTrades[tradeIdx], tradeIdx })
+      } else {
+        setOverlayContent({ card: rightTrades[tradeIdx], tradeIdx })
+      }
+    }
+  }, [leftTrades, rightTrades])
+
+
+  ////////// SEARCH FUNCTIONS //////////
   const handleInputChange = (e, { value }) => {
     setResultCard(null)
     const re = new RegExp(value, 'i')
@@ -53,30 +70,8 @@ function App() {
     }
   }
 
-  const editCardSet = (card, tradeIdx, setIdx) => {
-    if (card.isLeft) {
-      const cardCopy = { ...leftTrades[tradeIdx], setIdx }
 
-      setLeftTrades([
-        ...leftTrades.slice(0, tradeIdx),
-        cardCopy,
-        ...leftTrades.slice(tradeIdx + 1)
-      ])
-
-      setOverlayContent({ card: cardCopy, tradeIdx })
-    } else {
-      const cardCopy = { ...rightTrades[tradeIdx], setIdx }
-
-      setRightTrades([
-        ...rightTrades.slice(0, tradeIdx),
-        cardCopy,
-        ...rightTrades.slice(tradeIdx + 1)
-      ])
-
-      setOverlayContent({ card: cardCopy, tradeIdx })
-    }
-  }
-
+  ////////// OVERLAY FUNCTION //////////
   const openOverlay = (card, tradeIdx) => {
     setIsOverlayOpen(true)
     setOverlayContent({card, tradeIdx})
@@ -87,9 +82,28 @@ function App() {
     setOverlayContent({})
   }
 
-  // console.log('left', leftTrades)
-  // console.log('right', rightTrades)
+  const editCardSet = (card, tradeIdx, setIdx) => {
+    if (card.isLeft) {
+      const cardCopy = { ...leftTrades[tradeIdx], setIdx }
 
+      setLeftTrades([
+        ...leftTrades.slice(0, tradeIdx),
+        cardCopy,
+        ...leftTrades.slice(tradeIdx + 1)
+      ])
+    } else {
+      const cardCopy = { ...rightTrades[tradeIdx], setIdx }
+
+      setRightTrades([
+        ...rightTrades.slice(0, tradeIdx),
+        cardCopy,
+        ...rightTrades.slice(tradeIdx + 1)
+      ])
+    }
+  }
+
+
+  ////////// JSX //////////
   return (
     <div className='App'>
       <Grid centered>
@@ -111,12 +125,12 @@ function App() {
             className='p-1 ctr-txt'
             style={{backgroundColor: 'blue'}}
             onClick={() => addToTrade('left')}
-          >⏪</Grid.Column>
+          ><span role='img' aria-label='left-arrow'>⏪</span></Grid.Column>
           <Grid.Column
             className='p-1 ctr-txt'
             style={{backgroundColor: 'red'}}
             onClick={() => addToTrade('right')}
-          >⏩</Grid.Column>
+          ><span role='img' aria-label='right-arrow'>⏩</span></Grid.Column>
         </Grid.Row>
 
 

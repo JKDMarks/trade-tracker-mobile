@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Modal, Grid, Dropdown } from 'semantic-ui-react'
 
 function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet }) {
@@ -45,7 +45,7 @@ function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet }) {
       </Modal>
     )
   } else {
-    return (<div>hi</div>)
+    return (<Fragment></Fragment>)
   }
 }
 
