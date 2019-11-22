@@ -21,8 +21,8 @@ function App() {
   const [query, setQuery] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
-  const [leftTrades, setLeftTrades, addToLeft] = useTrades()
-  const [rightTrades, setRightTrades, addToRight] = useTrades()
+  const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard] = useTrades()
+  const [rightTrades, setRightTrades, addToRight, updateIthRightCard] = useTrades()
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
 
@@ -78,25 +78,41 @@ function App() {
   }
 
   const editCardSet = (card, tradeIdx, setIdx) => {
+    const foilVal = (card) => {
+      const { editions, setIdx, isFoil } = card
+      const prices = editions[setIdx].prices
+      if (prices.usd && prices.usd_foil) {
+        return false
+      } else if (!prices.usd) {
+        return true
+      } else if (!prices.usd_foil) {
+        return false
+      }
+    }
+
     if (card.isLeft) {
       const cardCopy = { ...leftTrades[tradeIdx], setIdx }
-
-      setLeftTrades([
-        ...leftTrades.slice(0, tradeIdx),
-        cardCopy,
-        ...leftTrades.slice(tradeIdx + 1)
-      ])
-
+      cardCopy.isFoil = foilVal(cardCopy)
+      updateIthLeftCard(cardCopy, tradeIdx)
       setOverlayContent({ card: cardCopy, tradeIdx })
     } else {
       const cardCopy = { ...rightTrades[tradeIdx], setIdx }
+      cardCopy.isFoil = foilVal(cardCopy)
+      updateIthRightCard(cardCopy, tradeIdx)
+      setOverlayContent({ card: cardCopy, tradeIdx })
+    }
+  }
 
-      setRightTrades([
-        ...rightTrades.slice(0, tradeIdx),
-        cardCopy,
-        ...rightTrades.slice(tradeIdx + 1)
-      ])
-
+  const toggleFoil = (card, tradeIdx) => {
+    if (card.isLeft) {
+      const cardCopy = { ...leftTrades[tradeIdx] }
+      cardCopy.isFoil = !cardCopy.isFoil
+      updateIthLeftCard(cardCopy, tradeIdx)
+      setOverlayContent({ card: cardCopy, tradeIdx })
+    } else {
+      const cardCopy = { ...rightTrades[tradeIdx] }
+      cardCopy.isFoil = !cardCopy.isFoil
+      updateIthRightCard(cardCopy, tradeIdx)
       setOverlayContent({ card: cardCopy, tradeIdx })
     }
   }
@@ -148,7 +164,14 @@ function App() {
         </Grid.Row>
       </Grid>
 
-      <Overlay card={overlayContent.card} tradeIdx={overlayContent.tradeIdx} isOpen={isOverlayOpen} closeOverlay={closeOverlay} editCardSet={editCardSet} />
+      <Overlay
+        card={overlayContent.card}
+        tradeIdx={overlayContent.tradeIdx}
+        isOpen={isOverlayOpen}
+        closeOverlay={closeOverlay}
+        editCardSet={editCardSet}
+        toggleFoil={toggleFoil}
+      />
     </div>
   )
 }

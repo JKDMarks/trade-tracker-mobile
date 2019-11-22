@@ -34,7 +34,7 @@ html, body {
 }
 
 .ui.active.modal {
-  height: 250px;
+  height: 350px;
   width: 90%;
   margin: 0 auto;
   position: relative;
@@ -42,6 +42,11 @@ html, body {
 
 .ui.active.modal .content {
   height: 100%;
+}
+
+.foil-bkgr {
+  background-image: linear-gradient(to bottom right, #FFFBD5 10%, #AAE0FA, #C2BCBA, #FAAA8F, #9BD3AE 90%);
+  /* background-image: url('https://raw.githubusercontent.com/JKDMarks/trade-tracker-frontend/master/public/foil-effect.png'); */
 }
 
 .header {

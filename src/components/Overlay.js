@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
-import { Modal, Grid, Dropdown } from 'semantic-ui-react'
+import { Modal, Grid, Dropdown, Checkbox } from 'semantic-ui-react'
+import { cardPrice } from '../helpers'
 
-function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet }) {
-
-
+function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet, toggleFoil }) {
   if (card && Object.entries(card).length > 0) {
     const { editions, setIdx, isFoil, isLeft } = card
     console.log(setIdx, isFoil, isLeft, tradeIdx)
@@ -12,11 +11,25 @@ function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet }) {
       <Modal className='ctr-txt' open={isOpen} onClose={closeOverlay}>
         <Modal.Content className='vert-ctr-parent'>
           {
-            (card.editions && editions.length > 0) ? (
-              <Grid centered columns={1} className='vert-ctr'>
+            (editions && editions.length > 0) ? (
+              <Grid centered className='vert-ctr'>
+                <Grid.Row>
+                  <Grid.Column width={8} textAlign='center'>
+                    Card Price: ${cardPrice(card)}
+                  </Grid.Column>
+
+                  <Grid.Column width={8} textAlign='center'>
+                    <Checkbox
+                      label='Foil' checked={isFoil}
+                      onChange={() => toggleFoil(card, tradeIdx)}
+                      disabled={(isFoil) ? (!editions[setIdx].prices.usd) : (!editions[setIdx].prices.usd_foil)}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+
                 <Grid.Row>
                   <Grid.Column>
-                    <Dropdown selection style={{width: '100%'}} text={editions[setIdx].set_name}>
+                    <Dropdown selection fluid text={editions[setIdx].set_name}>
                       <Dropdown.Menu>
                         {
                           editions.map((edition, i) => (
@@ -33,10 +46,6 @@ function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet }) {
                       </Dropdown.Menu>
                     </Dropdown>
                   </Grid.Column>
-                </Grid.Row>
-
-                <Grid.Row>
-                  <Grid.Column>hi3</Grid.Column>
                 </Grid.Row>
               </Grid>
             ) : (null)
