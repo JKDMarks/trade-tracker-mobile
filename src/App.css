@@ -71,7 +71,7 @@ html, body {
 }
 
 .trade-col {
-  max-height: calc(100vh - 177px) !important;
+  max-height: calc(100vh - 207px) !important;
   overflow-y: scroll;
 }
 
@@ -94,9 +94,9 @@ html, body {
   max-width: calc(50vw - 38px);
 }
 
-.sum-price-col {
+.price-col {
   color: white;
-  font-size: 1.5em;
+  font-size: 2em;
   height: 100%;
   -webkit-text-stroke: 0.5px black;
 }

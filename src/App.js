@@ -8,11 +8,11 @@ import { Card, Overlay } from './components'
 import { exampleTrade } from './helpers'
 
 const leftExample = exampleTrade.map(editions => {
-  return { editions, setIdx: 0, isFoil: false, isLeft: true }
+  return { editions, setIdx: 0, isFoil: false, isLeft: true, quantity: 1 }
 })
 
 const rightExample = exampleTrade.map(editions => {
-  return { editions, setIdx: 0, isFoil: false, isLeft: false }
+  return { editions, setIdx: 0, isFoil: false, isLeft: false, quantity: 1 }
 })
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
   const [resultCard, setResultCard] = useState(null)
   const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
   const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
+  const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
 
@@ -41,18 +42,38 @@ function App() {
     setRightTrades([ ...rightExample, ])
   }, [])
 
+  useEffect(() => {
+    setTradePrices({
+      left: tradeSum(leftTrades),
+      right: tradeSum(rightTrades)
+    })
+  }, [leftTrades, rightTrades])
+
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
 
-  const sumCardPrices = (trade) => {
+  // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+
+  const tradeSum = (trade) => {
     if (trade.length > 0) {
-      // debugger
       return trade.reduce((sum, card) => {
         return (Number(sum) + Number(cardPrice(card))).toFixed(2)
       }, 0)
     } else {
       return 0
+    }
+  }
+
+  const tradeDiffStr = () => {
+    const diff = (tradePrices.left - tradePrices.right).toFixed(2)
+
+    if (diff > 0) {
+      return `⏪ $${diff}`
+    } else if (diff < 0) {
+      return `$${-diff} ⏩`
+    } else {
+      return "Even trade"
     }
   }
 
@@ -97,7 +118,7 @@ function App() {
       const { editions, setIdx, isFoil } = card
       const prices = editions[setIdx].prices
       if (prices.usd && prices.usd_foil) {
-        return false
+        return isFoil
       } else if (!prices.usd) {
         return true
       } else if (!prices.usd_foil) {
@@ -161,7 +182,6 @@ function App() {
           />
         </Grid.Row>
 
-
         <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
           <Grid.Column
             className='p-1 ctr-txt'
@@ -174,7 +194,6 @@ function App() {
             onClick={() => addToTrade('right')}
           ><span role='img' aria-label='right-arrow'>⏩</span></Grid.Column>
         </Grid.Row>
-
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
@@ -199,19 +218,26 @@ function App() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row centered className='p-0' columns={2} style={{height: '25px', position: 'fixed', bottom: '0', width: '100vw'}}>
-          <Grid.Column className='ctr-txt sum-price-col' style={{backgroundColor: 'blue'}}>
+        <Grid.Row centered className='p-0 price-col' columns={0} style={{height: '35px', position: 'fixed', bottom: '35px', width: '100vw', backgroundColor: 'green'}}>
+          <div className='vert-ctr-parent'>
+            <div className='vert-ctr'>
+              {tradeDiffStr()}
+            </div>
+          </div>
+        </Grid.Row>
+
+        <Grid.Row centered className='p-0' columns={2} style={{height: '35px', position: 'fixed', bottom: '0', width: '100vw'}}>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'blue'}}>
             <div className='vert-ctr-parent'>
               <div className='vert-ctr'>
-                ${sumCardPrices(leftTrades)}
+                ${tradePrices.left}
               </div>
             </div>
           </Grid.Column>
-
-          <Grid.Column className='ctr-txt sum-price-col' style={{backgroundColor: 'red'}}>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'red'}}>
             <div className='vert-ctr-parent'>
               <div className='vert-ctr'>
-                ${sumCardPrices(rightTrades)}
+                ${tradePrices.right}
               </div>
             </div>
           </Grid.Column>
