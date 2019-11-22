@@ -1,8 +1,6 @@
 import React from 'react'
-import { cardPrice } from '../helpers'
 
-
-function Card({ card, openOverlay, tradeIdx }) {
+function Card({ card, openOverlay, tradeIdx, cardPrice }) {
   const { editions, setIdx, isFoil } = card
 
   return (

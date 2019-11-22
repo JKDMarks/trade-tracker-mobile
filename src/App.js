@@ -21,8 +21,8 @@ function App() {
   const [query, setQuery] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
-  const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard] = useTrades()
-  const [rightTrades, setRightTrades, addToRight, updateIthRightCard] = useTrades()
+  const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
+  const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
 
@@ -37,9 +37,24 @@ function App() {
     }
 
     fetchAllCards()
-    setLeftTrades([...leftExample, ...leftExample])
-    setRightTrades([...rightExample, ...rightExample, ...rightExample, ...rightExample])
+    setLeftTrades([ ...leftExample, ])
+    setRightTrades([ ...rightExample, ])
   }, [])
+
+
+  ////////// GENERAL FUNCTIONS //////////
+  const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
+
+  const sumCardPrices = (trade) => {
+    if (trade.length > 0) {
+      // debugger
+      return trade.reduce((sum, card) => {
+        return (Number(sum) + Number(cardPrice(card))).toFixed(2)
+      }, 0)
+    } else {
+      return 0
+    }
+  }
 
 
   ////////// SEARCH FUNCTIONS //////////
@@ -118,6 +133,17 @@ function App() {
   }
 
 
+  const deleteFromTrade = (isLeft, tradeIdx) => {
+    if (isLeft) {
+      deleteIthLeftCard(tradeIdx)
+    } else {
+      deleteIthRightCard(tradeIdx)
+    }
+
+    setIsOverlayOpen(false)
+    setOverlayContent({})
+  }
+
   ////////// JSX //////////
   return (
     <div className='App'>
@@ -150,16 +176,44 @@ function App() {
         </Grid.Row>
 
 
-        <Grid.Row style={{position: 'relative', maxWidth: '100vw'}} className='py-0' columns={2}>
+        <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
             {leftTrades.map((card, tradeIdx) => (
-              <Card key={`left-${tradeIdx}`} card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={true} />
+              <Card
+                key={`left-${tradeIdx}`}
+                card={card} tradeIdx={tradeIdx} isLeft={true}
+                openOverlay={openOverlay}
+                cardPrice={cardPrice}
+              />
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col px-0'>
             {rightTrades.map((card, tradeIdx) => (
-              <Card key={`right-${tradeIdx}`} card={card} tradeIdx={tradeIdx} openOverlay={openOverlay} isLeft={false} />
+              <Card
+                key={`right-${tradeIdx}`}
+                card={card} tradeIdx={tradeIdx} isLeft={false}
+                openOverlay={openOverlay}
+                cardPrice={cardPrice}
+              />
             ))}
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row centered className='p-0' columns={2} style={{height: '25px', position: 'fixed', bottom: '0', width: '100vw'}}>
+          <Grid.Column className='ctr-txt sum-price-col' style={{backgroundColor: 'blue'}}>
+            <div className='vert-ctr-parent'>
+              <div className='vert-ctr'>
+                ${sumCardPrices(leftTrades)}
+              </div>
+            </div>
+          </Grid.Column>
+
+          <Grid.Column className='ctr-txt sum-price-col' style={{backgroundColor: 'red'}}>
+            <div className='vert-ctr-parent'>
+              <div className='vert-ctr'>
+                ${sumCardPrices(rightTrades)}
+              </div>
+            </div>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -167,10 +221,12 @@ function App() {
       <Overlay
         card={overlayContent.card}
         tradeIdx={overlayContent.tradeIdx}
+        cardPrice={cardPrice}
         isOpen={isOverlayOpen}
         closeOverlay={closeOverlay}
         editCardSet={editCardSet}
         toggleFoil={toggleFoil}
+        deleteFromTrade={deleteFromTrade}
       />
     </div>
   )

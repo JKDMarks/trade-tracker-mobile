@@ -25,5 +25,13 @@ export function useTrades() {
   }
 
 
-  return [cards, setCards, addCard, updateIthCard]
+  const deleteIthCard = (idx) => {
+    setCards([
+      ...cards.slice(0, idx),
+      ...cards.slice(idx + 1)
+    ])
+  }
+
+
+  return [cards, setCards, addCard, updateIthCard, deleteIthCard]
 }

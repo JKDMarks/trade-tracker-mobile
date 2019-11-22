@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
-import { Modal, Grid, Dropdown, Checkbox } from 'semantic-ui-react'
-import { cardPrice } from '../helpers'
+import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
 
-function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet, toggleFoil }) {
+function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet, toggleFoil, deleteFromTrade }) {
   if (card && Object.entries(card).length > 0) {
     const { editions, setIdx, isFoil, isLeft } = card
     console.log(setIdx, isFoil, isLeft, tradeIdx)
@@ -45,6 +44,20 @@ function Overlay({ card, tradeIdx, isOpen, closeOverlay, editCardSet, toggleFoil
                         }
                       </Dropdown.Menu>
                     </Dropdown>
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row>
+                  <Grid.Column textAlign='center'>
+                    <Button
+                      color='red' content='Delete From Trade'
+                      onClick={() => {
+                        const confirmDelete = window.confirm('Delete this card?')
+                        if (confirmDelete) {
+                          deleteFromTrade(isLeft, tradeIdx)
+                        }
+                      }}
+                    />
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
