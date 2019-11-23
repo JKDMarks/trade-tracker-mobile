@@ -12,12 +12,6 @@ html, body {
   height: 100%;
 }
 
-.App {
-  min-height: 100%;
-  margin-bottom: -70px;
-  padding-bottom: 70px;
-}
-
 label {
   margin: 0;
 }
@@ -62,6 +56,10 @@ input {
 
 .ui.active.modal .content {
   height: 100%;
+}
+
+.ui.disabled.checkbox {
+  opacity: 0.25;
 }
 
 .foil-bkgr {

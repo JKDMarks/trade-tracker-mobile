@@ -67,8 +67,8 @@ function App() {
     }
 
     setTradePrices({
-      left: tradeSum(leftTrades),
-      right: tradeSum(rightTrades)
+      left: Number(tradeSum(leftTrades)).toFixed(2),
+      right: Number(tradeSum(rightTrades)).toFixed(2)
     })
   }, [leftTrades, rightTrades])
 
@@ -231,12 +231,12 @@ function App() {
             className='p-1 ctr-txt'
             style={{backgroundColor: 'blue'}}
             onClick={() => addToTrade('left')}
-          ><span role='img' aria-label='left-arrow'>⏪</span></Grid.Column>
+          ><span role='img' aria-label='left-arrow'>➕</span></Grid.Column>
           <Grid.Column
             className='p-1 ctr-txt'
             style={{backgroundColor: 'red'}}
             onClick={() => addToTrade('right')}
-          ><span role='img' aria-label='right-arrow'>⏩</span></Grid.Column>
+          ><span role='img' aria-label='right-arrow'>➕</span></Grid.Column>
         </Grid.Row>
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
