@@ -9,11 +9,14 @@ function Card({ card, openOverlay, cardPrice }) {
       className={`trade-card vert-ctr-parent ${isFoil ? 'foil-bkgr' : null}`}
       onClick={() => openOverlay(card)}
     >
-      <Grid centered className='m-0' style={{height: '100%'}}>
+      <Grid centered className='m-0' style={{height: '100%', maxHeight: '100%'}}>
+        <Grid.Row className='p-0' textAlign='center' style={{maxWidth: '100%'}}>
+          <Grid.Column className='ellipsis' verticalAlign='middle'>
+            {editions[setIdx].name}
+          </Grid.Column>
+        </Grid.Row>
         <Grid.Row className='p-0' verticalAlign='middle'>
           <Grid.Column width={10} className='trade-card-text ellipsis' style={{fontSize: '1em', float: 'left'}}>
-            {editions[setIdx].name}
-            <br/>
             ${cardPrice(card)}
             <br/>
             x{quantity} = {(cardPrice(card) * quantity).toFixed(2)}
