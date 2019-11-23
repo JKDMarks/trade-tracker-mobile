@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
 
-function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet, editCardQuantity, toggleFoil, deleteFromTrade }) {
+function Overlay({ card, cardPrice, isOpen, closeOverlay, editCardSet, editCardQuantity, toggleFoil, deleteFromTrade }) {
   if (card && Object.entries(card).length > 0) {
     const { editions, setIdx, isFoil, isLeft, quantity } = card
-    console.log(setIdx, isFoil, isLeft, tradeIdx)
+    // console.log(setIdx, isFoil, isLeft)
 
     return (
       <Modal className='ctr-txt' open={isOpen} onClose={closeOverlay}>
@@ -14,7 +14,13 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
               <Grid centered className='vert-ctr'>
                 <Grid.Row>
                   <Grid.Column textAlign='center'>
-                    Card Price: ${cardPrice(card)}
+                    <u>{card.editions[setIdx].name}</u>
+                  </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row>
+                  <Grid.Column textAlign='center'>
+                    Price Per Card: ${cardPrice(card)}
                   </Grid.Column>
                 </Grid.Row>
 
@@ -35,7 +41,7 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
                       <div className='vert-ctr'>
                         <Checkbox
                           label='Foil' checked={isFoil}
-                          onChange={() => toggleFoil(card, tradeIdx)}
+                          onChange={() => toggleFoil(card)}
                           disabled={(isFoil) ? (!editions[setIdx].prices.usd) : (!editions[setIdx].prices.usd_foil)}
                         />
                       </div>
@@ -49,7 +55,7 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
                       <Dropdown.Menu>
                         {
                           editions.map((edition, i) => (
-                            <Dropdown.Item value={i} onClick={(e, { value }) => editCardSet(card, tradeIdx, value)}
+                            <Dropdown.Item value={i} onClick={(e, { value }) => editCardSet(card, value)}
                               content={<div>
                                 {edition.set_name}
                                 &nbsp;
@@ -71,7 +77,7 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
                       onClick={() => {
                         const confirmDelete = window.confirm('Delete this card?')
                         if (confirmDelete) {
-                          deleteFromTrade(isLeft, tradeIdx, card)
+                          deleteFromTrade(card)
                         }
                       }}
                     />

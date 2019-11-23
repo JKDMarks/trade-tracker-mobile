@@ -20,23 +20,6 @@ export function useTrades() {
     fetchCard(cardName)
   }
 
-  const updateIthCard = (card) => {
-    const idx = cards.findIndex(oldCard => oldCard.id === card.id)
-
-    setCards([
-      ...cards.slice(0, idx),
-      card,
-      ...cards.slice(idx + 1)
-    ])
-  }
-
-  const deleteIthCard = (idx) => {
-    setCards([
-      ...cards.slice(0, idx),
-      ...cards.slice(idx + 1)
-    ])
-  }
-
   const updateCard = (card) => {
     const cardIdx = findCardIdx(card)
 
@@ -57,5 +40,5 @@ export function useTrades() {
   }
 
 
-  return [cards, setCards, addCard, updateIthCard, deleteIthCard, updateCard, deleteCard]
+  return [cards, setCards, addCard, updateCard, deleteCard]
 }

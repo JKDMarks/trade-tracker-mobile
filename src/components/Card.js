@@ -1,13 +1,13 @@
 import React from 'react'
 import { Grid } from 'semantic-ui-react'
 
-function Card({ card, openOverlay, tradeIdx, cardPrice }) {
+function Card({ card, openOverlay, cardPrice }) {
   const { editions, setIdx, isFoil, quantity } = card
 
   return (
     <div
       className={`trade-card vert-ctr-parent ${isFoil ? 'foil-bkgr' : null}`}
-      onClick={() => openOverlay(card, tradeIdx)}
+      onClick={() => openOverlay(card)}
     >
       <Grid centered className='m-0' style={{height: '100%'}}>
         <Grid.Row className='p-0' verticalAlign='middle'>

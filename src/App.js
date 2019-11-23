@@ -18,21 +18,23 @@ const rightExample = exampleTrade.map(editions => {
 
 function App() {
   ////////// useState DECLARATIONS //////////
-  const [allCardNames, setAllCardNames] = useState([])
-  const [query, setQuery] = useState('')
-  const [searchResult, setSearchResult] = useState([])
-  const [resultCard, setResultCard] = useState(null)
-  // const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
-  // const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
-  const [leftTradesTemp, setLeftTradesTemp] = useTrades()
-  const [rightTradesTemp, setRightTradesTemp] = useTrades()
-  const [trades, setTrades, addToTrades, updateIthCard, deleteIthCard, updateCard, deleteCard] = useTrades()
+  const [allCardNames, setAllCardNames] = useState([])  // LIST OF ALL CARD NAMES
+  const [query, setQuery] = useState('')                // INPUT IN SEARCH BAR
+  const [searchResult, setSearchResult] = useState([])  // LIST OF ALL CARD NAMES THAT MATCH query
+  const [resultCard, setResultCard] = useState(null)    // FINAL, EXACT CARD NAME RETURNED FROM SEARCH
+
+  const [trades, setTrades, addToTrades, updateCard, deleteCard] = useTrades()  // ALL CARDS IN THE TRADE (BOTH COLS.)
+  const [leftTrades, setLeftTrades] = useTrades([])       // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
+  const [rightTrades, setRightTrades] = useTrades([])     // CARDS IN RIGHT COL. ONLY
+
   const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
+
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
-  const [overlayContent, setOverlayContent] = useState({})
+  const [overlayCard, setOverlayCard] = useState({})
 
 
   ////////// useEffect BLOCKS //////////
+  // FETCH CARD NAMES WHEN APP MOUNTS
   useEffect(() => {
     async function fetchAllCards() {
       const resp = await fetch('https://api.scryfall.com/catalog/card-names')
@@ -42,52 +44,39 @@ function App() {
     }
 
     fetchAllCards()
-    // setLeftTrades([ ...leftExample, ])
-    // setRightTrades([ ...rightExample, ])
     setTrades([ ...leftExample, ...rightExample, ])
   }, [])
 
+  // UPDATE LEFT & RIGHT WHENEVER trades CHANGES, TECHNICALLY FAILS SSoT
   useEffect(() => {
-    setLeftTradesTemp(trades.filter(card => card.isLeft))
-    setRightTradesTemp(trades.filter(card => !card.isLeft))
+    setLeftTrades(trades.filter(card => card.isLeft))
+    setRightTrades(trades.filter(card => !card.isLeft))
   }, [trades])
 
+  // UPDATE PRICES WHENEVER trades CHANGES
   useEffect(() => {
     setTradePrices({
-      left: tradeSum(leftTradesTemp),
-      right: tradeSum(rightTradesTemp)
+      left: tradeSum(leftTrades),
+      right: tradeSum(rightTrades)
     })
-  }, [trades /*leftTrades, rightTrades*/])
+  }, [leftTrades, rightTrades])
 
+  // UPDATES CARD IN OVERLAY WHENEVER trades CHANGES
   useEffect(() => {
     if (isOverlayOpen) {
-      // const changedCard = [...leftTrades, ...rightTrades].find(card => card.id === overlayContent.card.id)
-      const changedCard = trades.find(card => card.id === overlayContent.card.id)
-      setOverlayContent({ ...overlayContent, card: changedCard })
+      const changedCard = trades.find(card => card.id === overlayCard.id)
+      setOverlayCard(changedCard)
     }
-  }, [trades /*leftTrades, rightTrades*/])
+  }, [trades])
 
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
 
-  const findCardIdx = (card) => {
-    return trades.findIndex(findCard => findCard.id === card.id)
-    // if (card.isLeft) {
-    //   return leftTrades.findIndex(leftCard => leftCard.id === card.id)
-    // } else {
-    //   return rightTrades.findIndex(leftCard => leftCard.id === card.id)
-    // }
-  }
+  const findCardIdx = (card) => trades.findIndex(findCard => findCard.id === card.id)
 
-  const findCard = (card) => {
-    return trades[findCardIdx(card)]
-    // if (card.isLeft) {
-    //   return leftTrades[findCardIdx(card)]
-    // } else {
-    //   return rightTrades[findCardIdx(card)]
-    // }
-  }
+  const findCard = (card) => trades[findCardIdx(card)]
+
   // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
   const tradeSum = (trade) => {
@@ -125,12 +114,11 @@ function App() {
 
   const addToTrade = (columnName) => {
     if (resultCard) {
+      // SECOND ARG OF addToTrades IS isLeft, I.E. TRUE IF IN LEFT COL. AND V.V.
       if (columnName === 'left') {
         addToTrades(resultCard.name, true)
-        // addToLeft(resultCard.name, true)
       } else if (columnName === 'right') {
         addToTrades(resultCard.name, false)
-        // addToRight(resultCard.name, false)
       }
 
       setResultCard(null)
@@ -140,16 +128,19 @@ function App() {
 
 
   ////////// OVERLAY FUNCTION //////////
-  const openOverlay = (card, tradeIdx) => {
+  const openOverlay = (card) => {
     setIsOverlayOpen(true)
-    setOverlayContent({card, tradeIdx})
+    setOverlayCard(card)
   }
 
   const closeOverlay = () => {
     setIsOverlayOpen(false)
-    setOverlayContent({})
+    setOverlayCard({})
   }
 
+  // DETERMINES DEFAULT FOIL VALUE OF CARD
+  // IF EDITION HAS BOTH FOIL AND NONFOIL VERSIONS, RETURNS INPUT isFoil VALUE
+  // ELSE IF EDITION DOESN'T HAVE ONE OF THE TWO, RETURNS WHAT IT CAN BE
   const foilVal = (card) => {
     const { editions, setIdx, isFoil } = card
     const prices = editions[setIdx].prices
@@ -162,64 +153,31 @@ function App() {
     }
   }
 
-  const editCardSet = (card, tradeIdx, setIdx) => {
+  const editCardSet = (card, setIdx) => {
     const cardCopy = { ...findCard(card), setIdx }
     cardCopy.isFoil = foilVal(cardCopy)
     updateCard(cardCopy)
-
-    // if (card.isLeft) {
-    //   const cardCopy = { ...leftTrades[tradeIdx], setIdx }
-    //   cardCopy.isFoil = foilVal(cardCopy)
-    //   updateIthLeftCard(cardCopy, tradeIdx)
-    //   // setOverlayContent({ card: cardCopy, tradeIdx })
-    // } else {
-    //   const cardCopy = { ...rightTrades[tradeIdx], setIdx }
-    //   cardCopy.isFoil = foilVal(cardCopy)
-    //   updateIthRightCard(cardCopy, tradeIdx)
-    //   // setOverlayContent({ card: cardCopy, tradeIdx })
-    // }
   }
 
   const editCardQuantity = (card, quantity) => {
-    const cardCopy = {...findCard(card)}
-    cardCopy.quantity = Number(quantity)
-    updateCard(cardCopy)
-    // if (card.isLeft) {
-    //   const cardIdx = leftTrades.findIndex(leftCard => leftCard.id === card.id)
-    //   const cardCopy = {...leftTrades[cardIdx]}
-    //   cardCopy.quantity = Number(quantity)
-    //   updateIthLeftCard(cardCopy)
-    // }
+    quantity = Number(quantity)
+    if (quantity >= 0) {
+      const cardCopy = {...findCard(card)}
+      cardCopy.quantity = quantity
+      updateCard(cardCopy)
+    }
   }
 
-  const toggleFoil = (card, tradeIdx) => {
+  const toggleFoil = (card) => {
     const cardCopy = {...findCard(card)}
     cardCopy.isFoil = !cardCopy.isFoil
     updateCard(cardCopy)
-    // if (card.isLeft) {
-    //   const cardCopy = { ...leftTrades[tradeIdx] }
-    //   cardCopy.isFoil = !cardCopy.isFoil
-    //   updateIthLeftCard(cardCopy, tradeIdx)
-    //   // setOverlayContent({ card: cardCopy, tradeIdx })
-    // } else {
-    //   const cardCopy = { ...rightTrades[tradeIdx] }
-    //   cardCopy.isFoil = !cardCopy.isFoil
-    //   updateIthRightCard(cardCopy, tradeIdx)
-    //   // setOverlayContent({ card: cardCopy, tradeIdx })
-    // }
   }
 
-
-  const deleteFromTrade = (isLeft, tradeIdx, card) => {
+  const deleteFromTrade = (card) => {
     deleteCard(card)
-    // if (isLeft) {
-    //   deleteIthLeftCard(tradeIdx)
-    // } else {
-    //   deleteIthRightCard(tradeIdx)
-    // }
-
     setIsOverlayOpen(false)
-    // setOverlayContent({})
+    setOverlayCard({})
   }
 
   ////////// JSX //////////
@@ -254,20 +212,20 @@ function App() {
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
-            {leftTradesTemp.map((card, tradeIdx) => (
+            {leftTrades.map((card) => (
               <Card
-                key={`left-${tradeIdx}`}
-                card={card} tradeIdx={tradeIdx} isLeft={true}
+                key={card.id}
+                card={card} isLeft={true}
                 openOverlay={openOverlay}
                 cardPrice={cardPrice}
               />
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col px-0'>
-            {rightTradesTemp.map((card, tradeIdx) => (
+            {rightTrades.map((card) => (
               <Card
-                key={`right-${tradeIdx}`}
-                card={card} tradeIdx={tradeIdx} isLeft={false}
+                key={card.id}
+                card={card} isLeft={false}
                 openOverlay={openOverlay}
                 cardPrice={cardPrice}
               />
@@ -302,8 +260,7 @@ function App() {
       </Grid>
 
       <Overlay
-        card={overlayContent.card}
-        tradeIdx={overlayContent.tradeIdx}
+        card={overlayCard}
         cardPrice={cardPrice}
         isOpen={isOverlayOpen}
         closeOverlay={closeOverlay}
