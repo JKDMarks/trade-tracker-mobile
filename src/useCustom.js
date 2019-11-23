@@ -6,7 +6,7 @@ export function useTrades() {
 
   const findCardIdx = (card) => cards.findIndex(findCard => findCard.id === card.id)
 
-  const findCard = (card) => cards[findCardIdx(card)]
+  // const findCard = (card) => cards[findCardIdx(card)]
 
   const addCard = (cardName, isLeft) => {
     async function fetchCard() {

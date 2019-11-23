@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Search } from 'semantic-ui-react'
+import { Grid, Button, Search } from 'semantic-ui-react'
 import './App.css'
-import uuid from 'uuid'
+// import uuid from 'uuid'
 
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
 
-import { exampleTrade } from './helpers'
-
-const leftExample = exampleTrade.map(editions => {
-  return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: true, quantity: 1 }
-})
-
-const rightExample = exampleTrade.map(editions => {
-  return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: false, quantity: 1 }
-})
+// import { exampleTrade } from './helpers'
+//
+// const leftExample = exampleTrade.map(editions => {
+//   return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: true, quantity: 1 }
+// })
+//
+// const rightExample = exampleTrade.map(editions => {
+//   return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: false, quantity: 1 }
+// })
 
 function App() {
   ////////// useState DECLARATIONS //////////
@@ -44,17 +44,28 @@ function App() {
     }
 
     fetchAllCards()
-    setTrades([ ...leftExample, ...rightExample, ])
+    // setTrades([ ...leftExample, ...rightExample, ])
   }, [])
 
   // UPDATE LEFT & RIGHT WHENEVER trades CHANGES, TECHNICALLY FAILS SSoT
   useEffect(() => {
     setLeftTrades(trades.filter(card => card.isLeft))
     setRightTrades(trades.filter(card => !card.isLeft))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trades])
 
   // UPDATE PRICES WHENEVER trades CHANGES
   useEffect(() => {
+    const tradeSum = (trade) => {
+      if (trade.length > 0) {
+        return trade.reduce((sum, card) => {
+          return (Number(sum) + Number(cardPrice(card)) * card.quantity).toFixed(2)
+        }, 0)
+      } else {
+        return 0
+      }
+    }
+
     setTradePrices({
       left: tradeSum(leftTrades),
       right: tradeSum(rightTrades)
@@ -67,27 +78,16 @@ function App() {
       const changedCard = trades.find(card => card.id === overlayCard.id)
       setOverlayCard(changedCard)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trades])
 
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
 
-  const findCardIdx = (card) => trades.findIndex(findCard => findCard.id === card.id)
-
-  const findCard = (card) => trades[findCardIdx(card)]
+  const findCard = (card) => trades.find(findCard => findCard.id === card.id)
 
   // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-
-  const tradeSum = (trade) => {
-    if (trade.length > 0) {
-      return trade.reduce((sum, card) => {
-        return (Number(sum) + Number(cardPrice(card)) * card.quantity).toFixed(2)
-      }, 0)
-    } else {
-      return 0
-    }
-  }
 
   const tradeDiffStr = () => {
     const diff = (tradePrices.left - tradePrices.right).toFixed(2)
@@ -184,8 +184,37 @@ function App() {
   return (
     <div className='App'>
       <Grid centered>
-        <Grid.Row className='header'>
-          <h1>Trade Tracker</h1>
+        <Grid.Row centered className='header'>
+          <Grid.Column width={2} className='vert-ctr-parent'>
+            <Button
+              content='X'
+              color='red'
+              className='p-0 m-0 vert-ctr'
+              style={{width: '15px', height: '15px'}}
+              onClick={() => {
+                const confirmClear = window.confirm('Clear this trade?')
+
+                if (confirmClear) {
+                  setTrades([])
+                }
+              }}
+            />
+          </Grid.Column>
+          <Grid.Column width={12} textAlign='center'>
+            <h1>Trade Tracker</h1>
+          </Grid.Column>
+          <Grid.Column width={2}>
+            {/*
+              // 'INFO ABOUT APP AND ME'
+              <Button
+                content='ℹ'
+                color='blue'
+                className='p-0 m-0 vert-ctr'
+                style={{width: '15px', height: '15px'}}
+                onClick={() => console.log('hi')}
+                />
+            */}
+          </Grid.Column>
         </Grid.Row>
 
         <Grid.Row style={{backgroundColor: 'green'}}>

@@ -3,7 +3,7 @@ import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
 
 function Overlay({ card, cardPrice, isOpen, closeOverlay, editCardSet, editCardQuantity, toggleFoil, deleteFromTrade }) {
   if (card && Object.entries(card).length > 0) {
-    const { editions, setIdx, isFoil, isLeft, quantity } = card
+    const { editions, setIdx, isFoil, quantity } = card
     // console.log(setIdx, isFoil, isLeft)
 
     return (
