@@ -31,11 +31,15 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
                   </Grid.Column>
 
                   <Grid.Column textAlign='center'>
-                    <Checkbox
-                      label='Foil' checked={isFoil}
-                      onChange={() => toggleFoil(card, tradeIdx)}
-                      disabled={(isFoil) ? (!editions[setIdx].prices.usd) : (!editions[setIdx].prices.usd_foil)}
-                    />
+                    <div className='vert-ctr-parent'>
+                      <div className='vert-ctr'>
+                        <Checkbox
+                          label='Foil' checked={isFoil}
+                          onChange={() => toggleFoil(card, tradeIdx)}
+                          disabled={(isFoil) ? (!editions[setIdx].prices.usd) : (!editions[setIdx].prices.usd_foil)}
+                        />
+                      </div>
+                    </div>
                   </Grid.Column>
                 </Grid.Row>
 
@@ -67,7 +71,7 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
                       onClick={() => {
                         const confirmDelete = window.confirm('Delete this card?')
                         if (confirmDelete) {
-                          deleteFromTrade(isLeft, tradeIdx)
+                          deleteFromTrade(isLeft, tradeIdx, card)
                         }
                       }}
                     />

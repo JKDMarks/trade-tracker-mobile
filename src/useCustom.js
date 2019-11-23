@@ -4,6 +4,10 @@ import uuid from 'uuid'
 export function useTrades() {
   const [cards, setCards] = useState([])
 
+  const findCardIdx = (card) => cards.findIndex(findCard => findCard.id === card.id)
+
+  const findCard = (card) => cards[findCardIdx(card)]
+
   const addCard = (cardName, isLeft) => {
     async function fetchCard() {
       const resp = await fetch(`https://api.scryfall.com/cards/search?q="${cardName}"%20-is:digital&unique=prints`)
@@ -16,7 +20,6 @@ export function useTrades() {
     fetchCard(cardName)
   }
 
-
   const updateIthCard = (card) => {
     const idx = cards.findIndex(oldCard => oldCard.id === card.id)
 
@@ -27,7 +30,6 @@ export function useTrades() {
     ])
   }
 
-
   const deleteIthCard = (idx) => {
     setCards([
       ...cards.slice(0, idx),
@@ -35,6 +37,25 @@ export function useTrades() {
     ])
   }
 
+  const updateCard = (card) => {
+    const cardIdx = findCardIdx(card)
 
-  return [cards, setCards, addCard, updateIthCard, deleteIthCard]
+    setCards([
+      ...cards.slice(0, cardIdx),
+      card,
+      ...cards.slice(cardIdx + 1)
+    ])
+  }
+
+  const deleteCard = (card) => {
+    const cardIdx = findCardIdx(card)
+
+    setCards([
+      ...cards.slice(0, cardIdx),
+      ...cards.slice(cardIdx + 1)
+    ])
+  }
+
+
+  return [cards, setCards, addCard, updateIthCard, deleteIthCard, updateCard, deleteCard]
 }

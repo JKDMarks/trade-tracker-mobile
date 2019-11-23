@@ -22,9 +22,11 @@ function App() {
   const [query, setQuery] = useState('')
   const [searchResult, setSearchResult] = useState([])
   const [resultCard, setResultCard] = useState(null)
-  const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
-  const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
-  // const [trades, setTrades, addToTrades, updateIthCard, deleteIthCard] = useTrades()
+  // const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
+  // const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
+  const [leftTradesTemp, setLeftTradesTemp] = useTrades()
+  const [rightTradesTemp, setRightTradesTemp] = useTrades()
+  const [trades, setTrades, addToTrades, updateIthCard, deleteIthCard, updateCard, deleteCard] = useTrades()
   const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
@@ -40,43 +42,51 @@ function App() {
     }
 
     fetchAllCards()
-    setLeftTrades([ ...leftExample, ])
-    setRightTrades([ ...rightExample, ])
-    // setTrades([ ...leftExample, ...rightExample, ])
+    // setLeftTrades([ ...leftExample, ])
+    // setRightTrades([ ...rightExample, ])
+    setTrades([ ...leftExample, ...rightExample, ])
   }, [])
 
   useEffect(() => {
+    setLeftTradesTemp(trades.filter(card => card.isLeft))
+    setRightTradesTemp(trades.filter(card => !card.isLeft))
+  }, [trades])
+
+  useEffect(() => {
     setTradePrices({
-      left: tradeSum(leftTrades),
-      right: tradeSum(rightTrades)
+      left: tradeSum(leftTradesTemp),
+      right: tradeSum(rightTradesTemp)
     })
-  }, [leftTrades, rightTrades])
+  }, [trades /*leftTrades, rightTrades*/])
 
   useEffect(() => {
     if (isOverlayOpen) {
-      const changedCard = [...leftTrades, ...rightTrades].find(card => card.id === overlayContent.card.id)
+      // const changedCard = [...leftTrades, ...rightTrades].find(card => card.id === overlayContent.card.id)
+      const changedCard = trades.find(card => card.id === overlayContent.card.id)
       setOverlayContent({ ...overlayContent, card: changedCard })
     }
-  }, [leftTrades, rightTrades])
+  }, [trades /*leftTrades, rightTrades*/])
 
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
 
   const findCardIdx = (card) => {
-    if (card.isLeft) {
-      return leftTrades.findIndex(leftCard => leftCard.id === card.id)
-    } else {
-      return rightTrades.findIndex(leftCard => leftCard.id === card.id)
-    }
+    return trades.findIndex(findCard => findCard.id === card.id)
+    // if (card.isLeft) {
+    //   return leftTrades.findIndex(leftCard => leftCard.id === card.id)
+    // } else {
+    //   return rightTrades.findIndex(leftCard => leftCard.id === card.id)
+    // }
   }
 
   const findCard = (card) => {
-    if (card.isLeft) {
-      return leftTrades[findCardIdx(card)]
-    } else {
-      return rightTrades[findCardIdx(card)]
-    }
+    return trades[findCardIdx(card)]
+    // if (card.isLeft) {
+    //   return leftTrades[findCardIdx(card)]
+    // } else {
+    //   return rightTrades[findCardIdx(card)]
+    // }
   }
   // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
@@ -116,9 +126,11 @@ function App() {
   const addToTrade = (columnName) => {
     if (resultCard) {
       if (columnName === 'left') {
-        addToLeft(resultCard.name, true)
+        addToTrades(resultCard.name, true)
+        // addToLeft(resultCard.name, true)
       } else if (columnName === 'right') {
-        addToRight(resultCard.name, false)
+        addToTrades(resultCard.name, false)
+        // addToRight(resultCard.name, false)
       }
 
       setResultCard(null)
@@ -138,68 +150,76 @@ function App() {
     setOverlayContent({})
   }
 
-  const editCardSet = (card, tradeIdx, setIdx) => {
-    const foilVal = (card) => {
-      const { editions, setIdx, isFoil } = card
-      const prices = editions[setIdx].prices
-      if (prices.usd && prices.usd_foil) {
-        return isFoil
-      } else if (!prices.usd) {
-        return true
-      } else if (!prices.usd_foil) {
-        return false
-      }
+  const foilVal = (card) => {
+    const { editions, setIdx, isFoil } = card
+    const prices = editions[setIdx].prices
+    if (prices.usd && prices.usd_foil) {
+      return isFoil
+    } else if (!prices.usd) {
+      return true
+    } else if (!prices.usd_foil) {
+      return false
     }
+  }
 
-    if (card.isLeft) {
-      const cardCopy = { ...leftTrades[tradeIdx], setIdx }
-      cardCopy.isFoil = foilVal(cardCopy)
-      updateIthLeftCard(cardCopy, tradeIdx)
-      // setOverlayContent({ card: cardCopy, tradeIdx })
-    } else {
-      const cardCopy = { ...rightTrades[tradeIdx], setIdx }
-      cardCopy.isFoil = foilVal(cardCopy)
-      updateIthRightCard(cardCopy, tradeIdx)
-      // setOverlayContent({ card: cardCopy, tradeIdx })
-    }
+  const editCardSet = (card, tradeIdx, setIdx) => {
+    const cardCopy = { ...findCard(card), setIdx }
+    cardCopy.isFoil = foilVal(cardCopy)
+    updateCard(cardCopy)
+
+    // if (card.isLeft) {
+    //   const cardCopy = { ...leftTrades[tradeIdx], setIdx }
+    //   cardCopy.isFoil = foilVal(cardCopy)
+    //   updateIthLeftCard(cardCopy, tradeIdx)
+    //   // setOverlayContent({ card: cardCopy, tradeIdx })
+    // } else {
+    //   const cardCopy = { ...rightTrades[tradeIdx], setIdx }
+    //   cardCopy.isFoil = foilVal(cardCopy)
+    //   updateIthRightCard(cardCopy, tradeIdx)
+    //   // setOverlayContent({ card: cardCopy, tradeIdx })
+    // }
   }
 
   const editCardQuantity = (card, quantity) => {
-    if (card.isLeft) {
-      const cardIdx = leftTrades.findIndex(leftCard => leftCard.id === card.id)
-      const cardCopy = {...leftTrades[cardIdx]}
-      cardCopy.quantity = Number(quantity)
-      updateIthLeftCard(cardCopy)
-    }
-    // const cardCopy = {...[...leftTrades, ...rightTrades].find(findCard => findCard.id === card.id)}
-    // cardCopy.quantity = Number(quantity)
-    // console.log(card.quantity, cardCopy.quantity)
+    const cardCopy = {...findCard(card)}
+    cardCopy.quantity = Number(quantity)
+    updateCard(cardCopy)
+    // if (card.isLeft) {
+    //   const cardIdx = leftTrades.findIndex(leftCard => leftCard.id === card.id)
+    //   const cardCopy = {...leftTrades[cardIdx]}
+    //   cardCopy.quantity = Number(quantity)
+    //   updateIthLeftCard(cardCopy)
+    // }
   }
 
   const toggleFoil = (card, tradeIdx) => {
-    if (card.isLeft) {
-      const cardCopy = { ...leftTrades[tradeIdx] }
-      cardCopy.isFoil = !cardCopy.isFoil
-      updateIthLeftCard(cardCopy, tradeIdx)
-      // setOverlayContent({ card: cardCopy, tradeIdx })
-    } else {
-      const cardCopy = { ...rightTrades[tradeIdx] }
-      cardCopy.isFoil = !cardCopy.isFoil
-      updateIthRightCard(cardCopy, tradeIdx)
-      // setOverlayContent({ card: cardCopy, tradeIdx })
-    }
+    const cardCopy = {...findCard(card)}
+    cardCopy.isFoil = !cardCopy.isFoil
+    updateCard(cardCopy)
+    // if (card.isLeft) {
+    //   const cardCopy = { ...leftTrades[tradeIdx] }
+    //   cardCopy.isFoil = !cardCopy.isFoil
+    //   updateIthLeftCard(cardCopy, tradeIdx)
+    //   // setOverlayContent({ card: cardCopy, tradeIdx })
+    // } else {
+    //   const cardCopy = { ...rightTrades[tradeIdx] }
+    //   cardCopy.isFoil = !cardCopy.isFoil
+    //   updateIthRightCard(cardCopy, tradeIdx)
+    //   // setOverlayContent({ card: cardCopy, tradeIdx })
+    // }
   }
 
 
-  const deleteFromTrade = (isLeft, tradeIdx) => {
-    if (isLeft) {
-      deleteIthLeftCard(tradeIdx)
-    } else {
-      deleteIthRightCard(tradeIdx)
-    }
+  const deleteFromTrade = (isLeft, tradeIdx, card) => {
+    deleteCard(card)
+    // if (isLeft) {
+    //   deleteIthLeftCard(tradeIdx)
+    // } else {
+    //   deleteIthRightCard(tradeIdx)
+    // }
 
     setIsOverlayOpen(false)
-    setOverlayContent({})
+    // setOverlayContent({})
   }
 
   ////////// JSX //////////
@@ -234,7 +254,7 @@ function App() {
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
           <Grid.Column className='trade-col px-0'>
-            {leftTrades.map((card, tradeIdx) => (
+            {leftTradesTemp.map((card, tradeIdx) => (
               <Card
                 key={`left-${tradeIdx}`}
                 card={card} tradeIdx={tradeIdx} isLeft={true}
@@ -244,7 +264,7 @@ function App() {
             ))}
           </Grid.Column>
           <Grid.Column className='trade-col px-0'>
-            {rightTrades.map((card, tradeIdx) => (
+            {rightTradesTemp.map((card, tradeIdx) => (
               <Card
                 key={`right-${tradeIdx}`}
                 card={card} tradeIdx={tradeIdx} isLeft={false}
