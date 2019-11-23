@@ -16,7 +16,7 @@ function Card({ card, openOverlay, tradeIdx, cardPrice }) {
             <br/>
             ${cardPrice(card)}
             <br/>
-            x{quantity} = {cardPrice(card) * quantity}
+            x{quantity} = {(cardPrice(card) * quantity).toFixed(2)}
           </Grid.Column>
           <Grid.Column width={6}><i className={`ss ss-2x ss-${editions[setIdx].set}`} /></Grid.Column>
         </Grid.Row>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import uuid from 'uuid'
 
 export function useTrades() {
   const [cards, setCards] = useState([])
@@ -8,7 +9,7 @@ export function useTrades() {
       const resp = await fetch(`https://api.scryfall.com/cards/search?q="${cardName}"%20-is:digital&unique=prints`)
       const json = await resp.json()
 
-      const card = { editions: json.data, setIdx: 0, isFoil: false, isLeft, quantity: 1 }
+      const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, isLeft, quantity: 1 }
       setCards([ card, ...cards ])
     }
 
@@ -16,7 +17,9 @@ export function useTrades() {
   }
 
 
-  const updateIthCard = (card, idx) => {
+  const updateIthCard = (card) => {
+    const idx = cards.findIndex(oldCard => oldCard.id === card.id)
+
     setCards([
       ...cards.slice(0, idx),
       card,

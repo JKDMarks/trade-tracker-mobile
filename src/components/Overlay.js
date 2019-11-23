@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
 
-function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet, toggleFoil, deleteFromTrade }) {
+function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet, editCardQuantity, toggleFoil, deleteFromTrade }) {
   if (card && Object.entries(card).length > 0) {
-    const { editions, setIdx, isFoil, isLeft } = card
+    const { editions, setIdx, isFoil, isLeft, quantity } = card
     console.log(setIdx, isFoil, isLeft, tradeIdx)
 
     return (
@@ -13,11 +13,24 @@ function Overlay({ card, tradeIdx, cardPrice, isOpen, closeOverlay, editCardSet,
             (editions && editions.length > 0) ? (
               <Grid centered className='vert-ctr'>
                 <Grid.Row>
-                  <Grid.Column width={8} textAlign='center'>
+                  <Grid.Column textAlign='center'>
                     Card Price: ${cardPrice(card)}
                   </Grid.Column>
+                </Grid.Row>
 
-                  <Grid.Column width={8} textAlign='center'>
+                <Grid.Row columns={2}>
+                  <Grid.Column textAlign='center'>
+                    <label style={{maxWidth: '100%'}}>
+                      <input
+                        type='number' value={quantity}
+                        className='m-0' style={{maxWidth: '15%'}}
+                        onChange={(e) => editCardQuantity(card, e.target.value)}
+                      />
+                      &nbsp; Quantity
+                    </label>
+                  </Grid.Column>
+
+                  <Grid.Column textAlign='center'>
                     <Checkbox
                       label='Foil' checked={isFoil}
                       onChange={() => toggleFoil(card, tradeIdx)}

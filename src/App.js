@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Search } from 'semantic-ui-react'
 import './App.css'
+import uuid from 'uuid'
 
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
@@ -8,11 +9,11 @@ import { Card, Overlay } from './components'
 import { exampleTrade } from './helpers'
 
 const leftExample = exampleTrade.map(editions => {
-  return { editions, setIdx: 0, isFoil: false, isLeft: true, quantity: 1 }
+  return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: true, quantity: 1 }
 })
 
 const rightExample = exampleTrade.map(editions => {
-  return { editions, setIdx: 0, isFoil: false, isLeft: false, quantity: 1 }
+  return { id: uuid(), editions, setIdx: 0, isFoil: false, isLeft: false, quantity: 1 }
 })
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   const [resultCard, setResultCard] = useState(null)
   const [leftTrades, setLeftTrades, addToLeft, updateIthLeftCard, deleteIthLeftCard] = useTrades()
   const [rightTrades, setRightTrades, addToRight, updateIthRightCard, deleteIthRightCard] = useTrades()
+  // const [trades, setTrades, addToTrades, updateIthCard, deleteIthCard] = useTrades()
   const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [overlayContent, setOverlayContent] = useState({})
@@ -40,6 +42,7 @@ function App() {
     fetchAllCards()
     setLeftTrades([ ...leftExample, ])
     setRightTrades([ ...rightExample, ])
+    // setTrades([ ...leftExample, ...rightExample, ])
   }, [])
 
   useEffect(() => {
@@ -49,16 +52,38 @@ function App() {
     })
   }, [leftTrades, rightTrades])
 
+  useEffect(() => {
+    if (isOverlayOpen) {
+      const changedCard = [...leftTrades, ...rightTrades].find(card => card.id === overlayContent.card.id)
+      setOverlayContent({ ...overlayContent, card: changedCard })
+    }
+  }, [leftTrades, rightTrades])
+
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
 
+  const findCardIdx = (card) => {
+    if (card.isLeft) {
+      return leftTrades.findIndex(leftCard => leftCard.id === card.id)
+    } else {
+      return rightTrades.findIndex(leftCard => leftCard.id === card.id)
+    }
+  }
+
+  const findCard = (card) => {
+    if (card.isLeft) {
+      return leftTrades[findCardIdx(card)]
+    } else {
+      return rightTrades[findCardIdx(card)]
+    }
+  }
   // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
   const tradeSum = (trade) => {
     if (trade.length > 0) {
       return trade.reduce((sum, card) => {
-        return (Number(sum) + Number(cardPrice(card))).toFixed(2)
+        return (Number(sum) + Number(cardPrice(card)) * card.quantity).toFixed(2)
       }, 0)
     } else {
       return 0
@@ -130,13 +155,25 @@ function App() {
       const cardCopy = { ...leftTrades[tradeIdx], setIdx }
       cardCopy.isFoil = foilVal(cardCopy)
       updateIthLeftCard(cardCopy, tradeIdx)
-      setOverlayContent({ card: cardCopy, tradeIdx })
+      // setOverlayContent({ card: cardCopy, tradeIdx })
     } else {
       const cardCopy = { ...rightTrades[tradeIdx], setIdx }
       cardCopy.isFoil = foilVal(cardCopy)
       updateIthRightCard(cardCopy, tradeIdx)
-      setOverlayContent({ card: cardCopy, tradeIdx })
+      // setOverlayContent({ card: cardCopy, tradeIdx })
     }
+  }
+
+  const editCardQuantity = (card, quantity) => {
+    if (card.isLeft) {
+      const cardIdx = leftTrades.findIndex(leftCard => leftCard.id === card.id)
+      const cardCopy = {...leftTrades[cardIdx]}
+      cardCopy.quantity = Number(quantity)
+      updateIthLeftCard(cardCopy)
+    }
+    // const cardCopy = {...[...leftTrades, ...rightTrades].find(findCard => findCard.id === card.id)}
+    // cardCopy.quantity = Number(quantity)
+    // console.log(card.quantity, cardCopy.quantity)
   }
 
   const toggleFoil = (card, tradeIdx) => {
@@ -144,12 +181,12 @@ function App() {
       const cardCopy = { ...leftTrades[tradeIdx] }
       cardCopy.isFoil = !cardCopy.isFoil
       updateIthLeftCard(cardCopy, tradeIdx)
-      setOverlayContent({ card: cardCopy, tradeIdx })
+      // setOverlayContent({ card: cardCopy, tradeIdx })
     } else {
       const cardCopy = { ...rightTrades[tradeIdx] }
       cardCopy.isFoil = !cardCopy.isFoil
       updateIthRightCard(cardCopy, tradeIdx)
-      setOverlayContent({ card: cardCopy, tradeIdx })
+      // setOverlayContent({ card: cardCopy, tradeIdx })
     }
   }
 
@@ -218,7 +255,7 @@ function App() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row centered className='p-0 price-col' columns={0} style={{height: '35px', position: 'fixed', bottom: '35px', width: '100vw', backgroundColor: 'green'}}>
+        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', position: 'fixed', bottom: '35px', width: '100vw', backgroundColor: 'green'}}>
           <div className='vert-ctr-parent'>
             <div className='vert-ctr'>
               {tradeDiffStr()}
@@ -251,6 +288,7 @@ function App() {
         isOpen={isOverlayOpen}
         closeOverlay={closeOverlay}
         editCardSet={editCardSet}
+        editCardQuantity={editCardQuantity}
         toggleFoil={toggleFoil}
         deleteFromTrade={deleteFromTrade}
       />
