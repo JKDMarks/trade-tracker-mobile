@@ -226,17 +226,42 @@ function App() {
           />
         </Grid.Row>
 
-        <Grid.Row className='pt-0' columns={2} style={{height: '25px'}}>
+        <Grid.Row className='p-0' columns={2} style={{height: '35px'}} verticalAlign='middle'>
           <Grid.Column
-            className='p-1 ctr-txt'
-            style={{backgroundColor: 'blue'}}
+            className='p-1 ctr-txt vert-ctr-parent'
+            style={{backgroundColor: 'blue', height: '100%'}}
             onClick={() => addToTrade('left')}
-          ><span role='img' aria-label='left-arrow'>➕</span></Grid.Column>
+          ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='left-arrow'>➕</span></Grid.Column>
           <Grid.Column
-            className='p-1 ctr-txt'
-            style={{backgroundColor: 'red'}}
+            className='p-1 ctr-txt vert-ctr-parent'
+            style={{backgroundColor: 'red', height: '100%'}}
             onClick={() => addToTrade('right')}
-          ><span role='img' aria-label='right-arrow'>➕</span></Grid.Column>
+          ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='right-arrow'>➕</span></Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row centered className='p-0' columns={2} style={{height: '35px', width: '100vw'}}>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'blue', height: '100%'}}>
+            <div className='vert-ctr-parent'>
+              <div className='vert-ctr'>
+                ${tradePrices.left}
+              </div>
+            </div>
+          </Grid.Column>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'red', height: '100%'}}>
+            <div className='vert-ctr-parent'>
+              <div className='vert-ctr'>
+                ${tradePrices.right}
+              </div>
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+
+        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', width: '100vw', backgroundColor: 'green'}}>
+          <div className='vert-ctr-parent'>
+            <div className='vert-ctr'>
+              {tradeDiffStr()}
+            </div>
+          </div>
         </Grid.Row>
 
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
@@ -262,30 +287,7 @@ function App() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', position: 'fixed', bottom: '35px', width: '100vw', backgroundColor: 'green'}}>
-          <div className='vert-ctr-parent'>
-            <div className='vert-ctr'>
-              {tradeDiffStr()}
-            </div>
-          </div>
-        </Grid.Row>
 
-        <Grid.Row centered className='p-0' columns={2} style={{height: '35px', position: 'fixed', bottom: '0', width: '100vw'}}>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'blue'}}>
-            <div className='vert-ctr-parent'>
-              <div className='vert-ctr'>
-                ${tradePrices.left}
-              </div>
-            </div>
-          </Grid.Column>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'red'}}>
-            <div className='vert-ctr-parent'>
-              <div className='vert-ctr'>
-                ${tradePrices.right}
-              </div>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
       </Grid>
 
       <Overlay
