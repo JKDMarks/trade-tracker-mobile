@@ -51,11 +51,11 @@ function Overlay({ card, cardPrice, isOpen, closeOverlay, editCardSet, editCardQ
 
                 <Grid.Row>
                   <Grid.Column>
-                    <Dropdown selection fluid text={editions[setIdx].set_name}>
+                    <Dropdown className='selection' fluid text={editions[setIdx].set_name}>
                       <Dropdown.Menu>
                         {
                           editions.map((edition, i) => (
-                            <Dropdown.Item value={i} onClick={(e, { value }) => editCardSet(card, value)}
+                            <Dropdown.Item key={i} value={i} onClick={(e, { value }) => editCardSet(card, value)}
                               content={<div>
                                 {edition.set_name}
                                 &nbsp;

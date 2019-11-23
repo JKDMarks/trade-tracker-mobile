@@ -10,7 +10,7 @@ export function useTrades() {
 
   const addCard = (cardName, isLeft) => {
     async function fetchCard() {
-      const resp = await fetch(`https://api.scryfall.com/cards/search?q="${cardName}"%20-is:digital&unique=prints`)
+      const resp = await fetch(`https://api.scryfall.com/cards/search?q="${cardName}"%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
       const json = await resp.json()
 
       const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, isLeft, quantity: 1 }
