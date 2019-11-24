@@ -7,7 +7,7 @@ function Card({ card, openOverlay, cardPrice }) {
   return (
     <div
       className={`trade-card vert-ctr-parent ${isFoil ? 'foil-bkgr' : null}`}
-      onClick={() => openOverlay(card)}
+      onClick={() => openOverlay(card, false) /* SECOND ARG IS isAdding */}
     >
       <Grid centered className='m-0' style={{height: '100%', maxHeight: '100%'}}>
         <Grid.Row className='p-0' textAlign='center' style={{maxWidth: '100%'}}>

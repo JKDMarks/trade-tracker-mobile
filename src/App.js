@@ -122,11 +122,8 @@ function App() {
       const json = await resp.json()
       const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, quantity: 1 }
 
-      setIsOverlayOpen(true)
-      setIsOverlayAdding(true)
-      setOverlayCard(card)
-      // const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, isLeft, quantity: 1 }
-      // setCards([ card, ...cards ])
+      openOverlay(card, true)
+      setQuery('')
     }
 
     fetchCard()
@@ -152,12 +149,13 @@ function App() {
     setIsOverlayOpen(true)
     setOverlayCard(card)
     setIsOverlayAdding(isAdding)
+    document.querySelector('.card-search input').blur()
   }
 
   const closeOverlay = () => {
     setIsOverlayOpen(false)
     setOverlayCard({})
-    setQuery('')
+    // setQuery('')
   }
 
   // DETERMINES DEFAULT FOIL VALUE OF CARD
@@ -263,6 +261,7 @@ function App() {
 
         <Grid.Row style={{backgroundColor: '#555555'}}>
           <Search
+            className='card-search'
             onSearchChange={handleInputChange}
             onResultSelect={handleResultSelect}
             results={searchResult}
