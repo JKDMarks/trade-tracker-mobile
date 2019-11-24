@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
 
-function Overlay({ card, cardPrice, isOpen, closeOverlay, editCardSet, editCardQuantity, toggleFoil, deleteFromTrade }) {
+function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet, editCardQuantity, toggleFoil, addToTrade, deleteFromTrade }) {
   if (card && Object.entries(card).length > 0) {
     const { editions, setIdx, isFoil, quantity } = card
     // console.log(setIdx, isFoil, isLeft)
@@ -70,19 +70,40 @@ function Overlay({ card, cardPrice, isOpen, closeOverlay, editCardSet, editCardQ
                   </Grid.Column>
                 </Grid.Row>
 
-                <Grid.Row>
-                  <Grid.Column textAlign='center'>
-                    <Button
-                      color='red' content='Delete From Trade'
-                      onClick={() => {
-                        const confirmDelete = window.confirm('Delete this card?')
-                        if (confirmDelete) {
-                          deleteFromTrade(card)
-                        }
-                      }}
-                    />
-                  </Grid.Column>
-                </Grid.Row>
+                {
+                  (isAdding) ? (
+                    <Grid.Row columns={2}>
+                      <Grid.Column textAlign='center'>
+                        <Button
+                          className='px-3'
+                          color='green' content='Add Left'
+                          onClick={() => addToTrade(true) /* ARG OF addToTrade IS isLeft */}
+                        />
+                      </Grid.Column>
+                      <Grid.Column textAlign='center'>
+                        <Button
+                          className='px-3'
+                          color='green' content='Add Right'
+                          onClick={() => addToTrade(false) /* ARG OF addToTrade IS isLeft */}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  ) : (
+                    <Grid.Row>
+                      <Grid.Column textAlign='center'>
+                        <Button
+                          color='red' content='Delete From Trade'
+                          onClick={() => {
+                            const confirmDelete = window.confirm('Delete this card?')
+                            if (confirmDelete) {
+                              deleteFromTrade(card)
+                            }
+                          }}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  )
+                }
               </Grid>
             ) : (null)
           }

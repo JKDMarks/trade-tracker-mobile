@@ -84,8 +84,13 @@ input {
 }
 
 .trade-col {
-  max-height: calc(100vh - 207px) !important;
+  max-height: calc(100vh - 182px) !important;
+  min-height: calc(100vh - 182px) !important;
   overflow-y: scroll;
+  border: 3px solid rgba(0,0,0,.1);
+  /* border-top: 3px solid rgba(0,0,0,.1); */
+  border-left: 0;
+  border-right: 0;
 }
 
 ::-webkit-scrollbar {
@@ -108,8 +113,8 @@ input {
 }
 
 .price-col {
-  color: white;
+  color: black;
   font-size: 2em;
   height: 100%;
-  -webkit-text-stroke: 0.5px black;
+  /* -webkit-text-stroke: 1px white; */
 }

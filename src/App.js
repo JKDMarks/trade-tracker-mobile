@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Button, Search } from 'semantic-ui-react'
 import './App.css'
-// import uuid from 'uuid'
+import uuid from 'uuid'
 
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
@@ -24,12 +24,13 @@ function App() {
   const [resultCard, setResultCard] = useState(null)    // FINAL, EXACT CARD NAME RETURNED FROM SEARCH
 
   const [trades, setTrades, addToTrades, updateCard, deleteCard] = useTrades()  // ALL CARDS IN THE TRADE (BOTH COLS.)
-  const [leftTrades, setLeftTrades] = useTrades([])       // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
-  const [rightTrades, setRightTrades] = useTrades([])     // CARDS IN RIGHT COL. ONLY
+  const [leftTrades, setLeftTrades] = useTrades([])     // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
+  const [rightTrades, setRightTrades] = useTrades([])   // CARDS IN RIGHT COL. ONLY
 
   const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
 
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
+  const [isOverlayAdding, setIsOverlayAdding] = useState(true) // true IF ADDING A CARD, false IF EDITING A CARD
   const [overlayCard, setOverlayCard] = useState({})
 
 
@@ -102,7 +103,7 @@ function App() {
   }
 
 
-  ////////// SEARCH FUNCTIONS //////////
+  ////////// SEARCHBAR FUNCTIONS //////////
   const handleInputChange = (e, { value }) => {
     setResultCard(null)
     setQuery(value)
@@ -112,30 +113,51 @@ function App() {
     setSearchResult(allCardNames.filter(card => re.test(card)).slice(0, 25).map((name, i) => ({ key: i, name, title: name })))
   }
 
-  const addToTrade = (columnName) => {
-    if (resultCard) {
-      // SECOND ARG OF addToTrades IS isLeft, I.E. TRUE IF IN LEFT COL. AND V.V.
-      if (columnName === 'left') {
-        addToTrades(resultCard.name, true)
-      } else if (columnName === 'right') {
-        addToTrades(resultCard.name, false)
-      }
+  const handleResultSelect = (e, { result: {name} }) => {
+    setResultCard(name)
+    setQuery(name)
 
-      setResultCard(null)
-      setQuery('')
+    async function fetchCard() {
+      const resp = await fetch(`https://api.scryfall.com/cards/search?q="${name}"%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
+      const json = await resp.json()
+      const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, quantity: 1 }
+
+      setIsOverlayOpen(true)
+      setIsOverlayAdding(true)
+      setOverlayCard(card)
+      // const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, isLeft, quantity: 1 }
+      // setCards([ card, ...cards ])
     }
+
+    fetchCard()
   }
+
+  // const addToTrade = (columnName) => {
+  //   if (resultCard) {
+  //     // SECOND ARG OF addToTrades IS isLeft, I.E. TRUE IF IN LEFT COL. AND V.V.
+  //     if (columnName === 'left') {
+  //       addToTrades(resultCard, true)
+  //     } else if (columnName === 'right') {
+  //       addToTrades(resultCard, false)
+  //     }
+  //
+  //     setResultCard(null)
+  //     setQuery('')
+  //   }
+  // }
 
 
   ////////// OVERLAY FUNCTION //////////
-  const openOverlay = (card) => {
+  const openOverlay = (card, isAdding) => {
     setIsOverlayOpen(true)
     setOverlayCard(card)
+    setIsOverlayAdding(isAdding)
   }
 
   const closeOverlay = () => {
     setIsOverlayOpen(false)
     setOverlayCard({})
+    setQuery('')
   }
 
   // DETERMINES DEFAULT FOIL VALUE OF CARD
@@ -154,24 +176,45 @@ function App() {
   }
 
   const editCardSet = (card, setIdx) => {
-    const cardCopy = { ...findCard(card), setIdx }
-    cardCopy.isFoil = foilVal(cardCopy)
-    updateCard(cardCopy)
+    if (isOverlayAdding) {
+      const overlayCardCopy = { ...overlayCard, setIdx }
+      overlayCardCopy.isFoil = foilVal(overlayCardCopy)
+      setOverlayCard(overlayCardCopy)
+    } else {
+      const cardCopy = { ...findCard(card), setIdx }
+      cardCopy.isFoil = foilVal(cardCopy)
+      updateCard(cardCopy)
+    }
   }
 
   const editCardQuantity = (card, quantity) => {
     quantity = Number(quantity)
     if (quantity >= 0) {
-      const cardCopy = {...findCard(card)}
-      cardCopy.quantity = quantity
-      updateCard(cardCopy)
+      if (isOverlayAdding) {
+        const overlayCardCopy = { ...overlayCard, quantity }
+        setOverlayCard(overlayCardCopy)
+      } else {
+        const cardCopy = { ...findCard(card), quantity }
+        updateCard(cardCopy)
+      }
     }
   }
 
   const toggleFoil = (card) => {
-    const cardCopy = {...findCard(card)}
-    cardCopy.isFoil = !cardCopy.isFoil
-    updateCard(cardCopy)
+    if (isOverlayAdding) {
+      const overlayCardCopy = { ...overlayCard, isFoil: !overlayCard.isFoil }
+      setOverlayCard(overlayCardCopy)
+    } else {
+      const cardCopy = { ...findCard(card), isFoil: !card.isFoil }
+      // cardCopy.isFoil = !cardCopy.isFoil
+      updateCard(cardCopy)
+    }
+  }
+
+  const addToTrade = (isLeft) => {
+    const overlayCardCopy = { ...overlayCard, isLeft }
+    setTrades([ overlayCardCopy, ...trades ])
+    closeOverlay()
   }
 
   const deleteFromTrade = (card) => {
@@ -179,6 +222,7 @@ function App() {
     setIsOverlayOpen(false)
     setOverlayCard({})
   }
+
 
   ////////// JSX //////////
   return (
@@ -217,37 +261,47 @@ function App() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row style={{backgroundColor: 'green'}}>
+        <Grid.Row style={{backgroundColor: '#555555'}}>
           <Search
             onSearchChange={handleInputChange}
-            onResultSelect={(e, { result }) => {setResultCard(result); setQuery(result.name);}}
+            onResultSelect={handleResultSelect}
             results={searchResult}
             value={query}
           />
         </Grid.Row>
 
-        <Grid.Row className='p-0' columns={2} style={{height: '35px'}} verticalAlign='middle'>
-          <Grid.Column
-            className='p-1 ctr-txt vert-ctr-parent'
-            style={{backgroundColor: 'blue', height: '100%'}}
-            onClick={() => addToTrade('left')}
-          ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='left-arrow'>➕</span></Grid.Column>
-          <Grid.Column
-            className='p-1 ctr-txt vert-ctr-parent'
-            style={{backgroundColor: 'red', height: '100%'}}
-            onClick={() => addToTrade('right')}
-          ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='right-arrow'>➕</span></Grid.Column>
+        {/*
+          <Grid.Row className='p-0' columns={2} style={{height: '35px'}} verticalAlign='middle'>
+            <Grid.Column
+              className='p-1 ctr-txt vert-ctr-parent'
+              style={{backgroundColor: 'blue', height: '100%'}}
+              onClick={() => addToTrade('left')}
+            ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='left-arrow'>➕</span></Grid.Column>
+            <Grid.Column
+              className='p-1 ctr-txt vert-ctr-parent'
+              style={{backgroundColor: 'red', height: '100%'}}
+              onClick={() => addToTrade('right')}
+            ><span className='vert-ctr' style={{left: '0'}} role='img' aria-label='right-arrow'>➕</span></Grid.Column>
+          </Grid.Row>
+        */}
+
+        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', width: '100vw', backgroundColor: 'lightgreen'}}>
+          <div className='vert-ctr-parent'>
+            <div className='vert-ctr'>
+              {tradeDiffStr()}
+            </div>
+          </div>
         </Grid.Row>
 
         <Grid.Row centered className='p-0' columns={2} style={{height: '35px', width: '100vw'}}>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'blue', height: '100%'}}>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'lightblue', height: '100%'}}>
             <div className='vert-ctr-parent'>
               <div className='vert-ctr'>
                 ${tradePrices.left}
               </div>
             </div>
           </Grid.Column>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'red', height: '100%'}}>
+          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'pink', height: '100%'}}>
             <div className='vert-ctr-parent'>
               <div className='vert-ctr'>
                 ${tradePrices.right}
@@ -256,16 +310,8 @@ function App() {
           </Grid.Column>
         </Grid.Row>
 
-        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', width: '100vw', backgroundColor: 'green'}}>
-          <div className='vert-ctr-parent'>
-            <div className='vert-ctr'>
-              {tradeDiffStr()}
-            </div>
-          </div>
-        </Grid.Row>
-
         <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
-          <Grid.Column className='trade-col px-0'>
+          <Grid.Column className='trade-col px-0' style={{borderLeft: '3px solid rgba(0,0,0,.1)'}}>
             {leftTrades.map((card) => (
               <Card
                 key={card.id}
@@ -286,18 +332,18 @@ function App() {
             ))}
           </Grid.Column>
         </Grid.Row>
-
-
       </Grid>
 
       <Overlay
         card={overlayCard}
+        isAdding={isOverlayAdding}
         cardPrice={cardPrice}
         isOpen={isOverlayOpen}
         closeOverlay={closeOverlay}
         editCardSet={editCardSet}
         editCardQuantity={editCardQuantity}
         toggleFoil={toggleFoil}
+        addToTrade={addToTrade}
         deleteFromTrade={deleteFromTrade}
       />
     </div>
