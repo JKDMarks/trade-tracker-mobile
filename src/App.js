@@ -21,7 +21,7 @@ function App() {
   const [allCardNames, setAllCardNames] = useState([])  // LIST OF ALL CARD NAMES
   const [query, setQuery] = useState('')                // INPUT IN SEARCH BAR
   const [searchResult, setSearchResult] = useState([])  // LIST OF ALL CARD NAMES THAT MATCH query
-  const [resultCard, setResultCard] = useState(null)    // FINAL, EXACT CARD NAME RETURNED FROM SEARCH
+  // const [resultCard, setResultCard] = useState(null)    // FINAL, EXACT CARD NAME RETURNED FROM SEARCH
 
   const [trades, setTrades, addToTrades, updateCard, deleteCard] = useTrades()  // ALL CARDS IN THE TRADE (BOTH COLS.)
   const [leftTrades, setLeftTrades] = useTrades([])     // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
@@ -105,7 +105,7 @@ function App() {
 
   ////////// SEARCHBAR FUNCTIONS //////////
   const handleInputChange = (e, { value }) => {
-    setResultCard(null)
+    // setResultCard(null)
     setQuery(value)
 
     // setSearchResult TO ONLY THE FIRST 25 CARDS THAT MATCH THE QUERY
@@ -114,7 +114,7 @@ function App() {
   }
 
   const handleResultSelect = (e, { result: {name} }) => {
-    setResultCard(name)
+    // setResultCard(name)
     setQuery(name)
 
     async function fetchCard() {
