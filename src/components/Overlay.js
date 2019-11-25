@@ -71,6 +71,7 @@ function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet,
                 </Grid.Row>
 
                 {
+                  /* 'ADD LEFT' AND 'ADD RIGHT' BUTTONS IF isAdding true, ELSE 'DELETE' BUTTON (IF EDITING) */
                   (isAdding) ? (
                     <Grid.Row columns={2}>
                       <Grid.Column textAlign='center'>

@@ -5,7 +5,7 @@ html, body {
   padding: 0px;
   overflow-x: hidden;
   max-height: 100vh;
-  max-height: calc(var(--vh, 1vh) * 100);
+  max-height: calc(var(--vh, 1vh) * 100) !important;
 }
 
 html, body {
@@ -81,15 +81,15 @@ input {
 
 .results {
   max-height: 50vh;
-  max-height: calc(var(--vh, 1vh) * 50);
+  max-height: calc(var(--vh, 1vh) * 50) !important;
   overflow-y: scroll;
 }
 
 .trade-col {
   min-height: calc(100vh - 182px) !important;
   max-height: calc(100vh - 182px) !important;
-  min-height: calc(var(--vh, 1vh) * 100);
-  max-height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100 - 182px) !important;
+  max-height: calc(var(--vh, 1vh) * 100 - 182px) !important;
   overflow-y: scroll;
   border: 3px solid rgba(0,0,0,.1);
   /* border-top: 3px solid rgba(0,0,0,.1); */
