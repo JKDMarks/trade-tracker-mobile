@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Button, Search } from 'semantic-ui-react'
 import './App.css'
+
+import { Grid, Button, Search } from 'semantic-ui-react'
 import uuid from 'uuid'
+import { useCookies } from 'react-cookie'
 
 import { useTrades } from './useCustom'
 import { Card, Overlay } from './components'
@@ -18,6 +20,10 @@ import { Card, Overlay } from './components'
 
 function App() {
   ////////// useState DECLARATIONS //////////
+  const [cookies, setCookie, removeCookie] = useCookies(['trades'])
+
+  const [isLoading, setIsLoading] = useState(false)
+
   const [allCardNames, setAllCardNames] = useState([])  // LIST OF ALL CARD NAMES
   const [query, setQuery] = useState('')                // INPUT IN SEARCH BAR
   const [searchResult, setSearchResult] = useState([])  // LIST OF ALL CARD NAMES THAT MATCH query
@@ -37,22 +43,66 @@ function App() {
   // FETCH CARD NAMES WHEN APP MOUNTS
   useEffect(() => {
     async function fetchAllCards() {
+      setIsLoading(true)
       const resp = await fetch('https://api.scryfall.com/catalog/card-names')
       const json = await resp.json()
 
       setAllCardNames(json.data)
+      setIsLoading(false)
     }
 
     fetchAllCards()
     // setTrades([ ...leftExample, ...rightExample, ])
+
+    if (cookies.trades && cookies.trades.length > 0) {
+      const cardNames = cookies.trades.map(({name}) => name)
+      let formattedCardNames = cardNames.map(name => `!"${name}"`).join(' OR ')
+      formattedCardNames = `(${formattedCardNames})`
+
+      async function fetchCards() {
+        setIsLoading(true)
+        const resp = await fetch(`https://api.scryfall.com/cards/search?q=${formattedCardNames}%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
+        const json = await resp.json()
+
+        let { data } = json
+        data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
+
+        const cards = cookies.trades.map(({ name, id, isFoil, isLeft, quantity, setIdx }) => {
+          const editions = data.filter(card => card.name === name)
+
+          return { id, isFoil, isLeft, quantity, setIdx, editions }
+        })
+
+        setTrades(cards)
+        setIsLoading(false)
+      }
+
+      fetchCards()
+    }
   }, [])
 
-  // UPDATE LEFT & RIGHT WHENEVER trades CHANGES, TECHNICALLY FAILS SSoT
   useEffect(() => {
+    // UPDATE LEFT & RIGHT WHENEVER trades CHANGES, TECHNICALLY FAILS SSoT
     setLeftTrades(trades.filter(card => card.isLeft))
     setRightTrades(trades.filter(card => !card.isLeft))
+
+    // UPDATES CARD IN OVERLAY WHENEVER trades CHANGES
+    if (isOverlayOpen) {
+      const changedCard = trades.find(card => card.id === overlayCard.id)
+      setOverlayCard(changedCard)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trades])
+
+  useEffect(() => {
+    // console.log(trades)
+    const cookieTrades = trades.map(({id, editions, isFoil, isLeft, quantity, setIdx}) => ({id, isFoil, isLeft, quantity, setIdx, name: editions[0].name}))
+    setCookie('trades', cookieTrades)
+  }, [trades])
+
+  useEffect(() => {
+    console.log('Cookies in useEffect', cookies);
+  }, [cookies])
 
   // UPDATE PRICES WHENEVER trades CHANGES
   useEffect(() => {
@@ -72,15 +122,6 @@ function App() {
     })
   }, [leftTrades, rightTrades])
 
-  // UPDATES CARD IN OVERLAY WHENEVER trades CHANGES
-  useEffect(() => {
-    if (isOverlayOpen) {
-      const changedCard = trades.find(card => card.id === overlayCard.id)
-      setOverlayCard(changedCard)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trades])
-
 
   ////////// GENERAL FUNCTIONS //////////
   const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
@@ -90,12 +131,12 @@ function App() {
   // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
   const tradeDiffStr = () => {
-    const diff = (tradePrices.left - tradePrices.right).toFixed(2)
+    const diff = tradePrices.left - tradePrices.right
 
     if (diff > 0) {
-      return `⏪ $${diff}`
+      return `⏪ $${Number(diff).toFixed(2)}`
     } else if (diff < 0) {
-      return `$${-diff} ⏩`
+      return `$${Number(-diff).toFixed(2)} ⏩`
     } else {
       return "Even trade"
     }
@@ -112,15 +153,21 @@ function App() {
   }
 
   const handleResultSelect = (e, { result: {name} }) => {
+    setIsLoading(true)
     setQuery(name)
 
     async function fetchCard() {
       const resp = await fetch(`https://api.scryfall.com/cards/search?q=!"${name}"%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
       const json = await resp.json()
-      const card = { id: uuid(), editions: json.data, setIdx: 0, isFoil: false, quantity: 1 }
+
+      let { data } = json
+      data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
+
+      const card = { id: uuid(), editions: data, setIdx: 0, isFoil: false, quantity: 1 }
 
       openOverlay(card, true)
       setQuery('')
+      setIsLoading(false)
     }
 
     fetchCard()
@@ -318,6 +365,20 @@ function App() {
         addToTrade={addToTrade}
         deleteFromTrade={deleteFromTrade}
       />
+
+      {
+        (isLoading) ? (
+          <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+            <img
+              src='/images/WUBRG.png'
+              className='spin'
+              height='150px'
+              width='150px'
+              alt='spinning mana pentagon'
+            />
+          </div>
+        ) : (null)
+      }
     </div>
   )
 }
