@@ -6,8 +6,14 @@ function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet,
     const { editions, setIdx, isFoil, quantity } = card
     // console.log(setIdx, isFoil, isLeft)
 
+    const cardData = editions[setIdx]
+    const cardImageUrl = (cardData.card_faces) ? (cardData.card_faces[0].image_uris.normal) : (cardData.image_uris.normal)
+
     return (
-      <Modal className='ctr-txt' open={isOpen} onClose={closeOverlay}>
+      <Modal
+        className='ctr-txt' open={isOpen} onClose={closeOverlay}
+        closeIcon closeOnDimmerClick={false}
+      >
         <Modal.Content className='vert-ctr-parent'>
           {
             (editions && editions.length > 0) ? (
@@ -29,7 +35,7 @@ function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet,
                     <label style={{maxWidth: '100%'}}>
                       <input
                         type='number' value={quantity}
-                        className='m-0' style={{maxWidth: '15%'}}
+                        className='m-0' style={{maxWidth: '25%'}}
                         onChange={(e) => editCardQuantity(card, e.target.value)}
                       />
                       &nbsp; Quantity

@@ -17,9 +17,9 @@ function Card({ card, openOverlay, cardPrice }) {
         </Grid.Row>
         <Grid.Row className='p-0' verticalAlign='middle'>
           <Grid.Column width={10} className='trade-card-text ellipsis' style={{fontSize: '1em', float: 'left'}}>
-            ${cardPrice(card)}
+            <span>${cardPrice(card)}</span>
             <br/>
-            x{quantity} = {(cardPrice(card) * quantity).toFixed(2)}
+            <span style={{color: '#0000aa'}}>x{quantity} = <u>{(cardPrice(card) * quantity).toFixed(2)}</u></span>
           </Grid.Column>
           <Grid.Column width={6}><i className={`ss ss-2x ss-${editions[setIdx].set}`} /></Grid.Column>
         </Grid.Row>

@@ -42,7 +42,7 @@ function App() {
   ////////// useEffect BLOCKS //////////
   // FETCH CARD NAMES WHEN APP MOUNTS
   useEffect(() => {
-    async function fetchAllCards() {
+    async function fetchAllCardNames() {
       setIsLoading(true)
       const resp = await fetch('https://api.scryfall.com/catalog/card-names')
       const json = await resp.json()
@@ -51,13 +51,12 @@ function App() {
       setIsLoading(false)
     }
 
-    fetchAllCards()
+    fetchAllCardNames()
     // setTrades([ ...leftExample, ...rightExample, ])
 
     if (cookies.trades && cookies.trades.length > 0) {
       const cardNames = cookies.trades.map(({name}) => name)
-      let formattedCardNames = cardNames.map(name => `!"${name}"`).join(' OR ')
-      formattedCardNames = `(${formattedCardNames})`
+      const formattedCardNames = `(${cardNames.map(name => `!"${name}"`).join(' OR ')})` // E.G. (!"Blood Crypt" OR !"Breeding Pool" OR !"Embercleave")
 
       async function fetchCards() {
         setIsLoading(true)
@@ -65,7 +64,7 @@ function App() {
         const json = await resp.json()
 
         let { data } = json
-        data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
+        // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
 
         const cards = cookies.trades.map(({ name, id, isFoil, isLeft, quantity, setIdx }) => {
           const editions = data.filter(card => card.name === name)
@@ -82,27 +81,22 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // UPDATE LEFT & RIGHT WHENEVER trades CHANGES, TECHNICALLY FAILS SSoT
+    // UPDATE LEFT & RIGHT TRADES, TECHNICALLY FAILS SSoT
     setLeftTrades(trades.filter(card => card.isLeft))
     setRightTrades(trades.filter(card => !card.isLeft))
 
-    // UPDATES CARD IN OVERLAY WHENEVER trades CHANGES
+    // UPDATES CARD IN OVERLAY
     if (isOverlayOpen) {
       const changedCard = trades.find(card => card.id === overlayCard.id)
       setOverlayCard(changedCard)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trades])
 
-  useEffect(() => {
-    // console.log(trades)
+    // UPDATES cookies.trades
     const cookieTrades = trades.map(({id, editions, isFoil, isLeft, quantity, setIdx}) => ({id, isFoil, isLeft, quantity, setIdx, name: editions[0].name}))
     setCookie('trades', cookieTrades)
-  }, [trades])
 
-  useEffect(() => {
-    console.log('Cookies in useEffect', cookies);
-  }, [cookies])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trades])
 
   // UPDATE PRICES WHENEVER trades CHANGES
   useEffect(() => {
@@ -161,8 +155,7 @@ function App() {
       const json = await resp.json()
 
       let { data } = json
-      data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
-
+      // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
       const card = { id: uuid(), editions: data, setIdx: 0, isFoil: false, quantity: 1 }
 
       openOverlay(card, true)

@@ -131,3 +131,11 @@ input {
   from {transform:rotate(0deg);}
   to {transform:rotate(360deg);}
 }
+
+i.close.icon {
+  color: red !important;
+}
+
+i.close.icon:active {
+  color: darkred !important;
+}
