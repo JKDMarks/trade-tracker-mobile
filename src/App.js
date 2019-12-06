@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 
-import { Grid, Button, Search } from 'semantic-ui-react'
+import { Grid, Button, Search, Icon } from 'semantic-ui-react'
 import uuid from 'uuid'
 import { useCookies } from 'react-cookie'
 
@@ -37,6 +37,8 @@ function App() {
   const [isOverlayOpen, setIsOverlayOpen] = useState(false)
   const [isOverlayAdding, setIsOverlayAdding] = useState(true) // true IF ADDING A CARD, false IF EDITING A CARD
   const [overlayCard, setOverlayCard] = useState({})
+
+  const [cardImg, setCardImg] = useState(null)
 
 
   ////////// useEffect BLOCKS //////////
@@ -167,7 +169,7 @@ function App() {
   }
 
 
-  ////////// OVERLAY FUNCTION //////////
+  ////////// OVERLAY FUNCTIONS //////////
   const openOverlay = (card, isAdding) => {
     setIsOverlayOpen(true)
     setOverlayCard(card)
@@ -357,7 +359,24 @@ function App() {
         toggleFoil={toggleFoil}
         addToTrade={addToTrade}
         deleteFromTrade={deleteFromTrade}
+        setCardImg={setCardImg}
       />
+
+      {
+        (cardImg) ? (
+          <div style={{zIndex: '1001', maxWidth: '90vw', minWidth: '90vw', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
+            <img
+              style={{maxWidth: '100%'}}
+              src={cardImg} alt='card-img'
+            />
+            <Icon
+              name='close' color='red' size='big'
+              style={{position: 'absolute', top: '10%', right: '5%'}}
+              onClick={() => setCardImg(null)}
+            />
+          </div>
+        ) : (null)
+      }
 
       {
         (isLoading) ? (

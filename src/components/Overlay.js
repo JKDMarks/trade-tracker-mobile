@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
-import { Modal, Grid, Dropdown, Checkbox, Button } from 'semantic-ui-react'
+import { Modal, Grid, Dropdown, Checkbox, Button, Icon } from 'semantic-ui-react'
 
-function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet, editCardQuantity, toggleFoil, addToTrade, deleteFromTrade }) {
+function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet, editCardQuantity, toggleFoil, addToTrade, deleteFromTrade, setCardImg }) {
   if (card && Object.entries(card).length > 0) {
     const { editions, setIdx, isFoil, quantity } = card
     // console.log(setIdx, isFoil, isLeft)
 
     const cardData = editions[setIdx]
-    const cardImageUrl = (cardData.card_faces) ? (cardData.card_faces[0].image_uris.normal) : (cardData.image_uris.normal)
+    const cardImageUrl = (cardData.card_faces) ? (cardData.card_faces[0].image_uris.border_crop) : (cardData.image_uris.border_crop)
 
     return (
       <Modal
@@ -20,6 +20,11 @@ function Overlay({ card, cardPrice, isOpen, isAdding, closeOverlay, editCardSet,
               <Grid centered className='vert-ctr'>
                 <Grid.Row>
                   <Grid.Column textAlign='center'>
+                    <Icon
+                      name='picture'
+                      circular inverted link color='teal'
+                      onClick={() => setCardImg(cardImageUrl)}
+                    />
                     <u>{card.editions[setIdx].name}</u>
                   </Grid.Column>
                 </Grid.Row>
