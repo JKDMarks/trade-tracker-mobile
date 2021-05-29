@@ -27,9 +27,8 @@ function Overlay({
 
         const cardData = editions[setIdx];
         const cardImageUrl =
-            /*cardData.card_faces
-            ? cardData.card_faces[0].image_uris.border_crop
-            :*/ cardData.image_uris.border_crop;
+            cardData?.image_uris?.border_crop ||
+            cardData?.card_faces?.[0]?.image_uris?.border_crop;
 
         return (
             <Modal
