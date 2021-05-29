@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import { CookiesProvider } from 'react-cookie'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import { CookiesProvider } from "react-cookie";
 
 // window.addEventListener('resize', () => {
 //   const vh = window.innerHeight * 0.01;
@@ -9,8 +9,8 @@ import { CookiesProvider } from 'react-cookie'
 // });
 
 ReactDOM.render(
-  <CookiesProvider>
-    <App />
-  </CookiesProvider>,
-  document.querySelector('#root')
-)
+    <CookiesProvider>
+        <App />
+    </CookiesProvider>,
+    document.querySelector("#root")
+);

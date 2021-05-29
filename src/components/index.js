@@ -1,7 +1,4 @@
-import Card from './Card'
-import Overlay from './Overlay'
+import Card from "./Card";
+import Overlay from "./Overlay";
 
-export {
-  Card,
-  Overlay
-}
+export { Card, Overlay };

@@ -1,141 +1,154 @@
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0px;
-  padding: 0px;
-  overflow-x: hidden;
-  max-height: 100vh;
-  /* max-height: calc(var(--vh, 1vh) * 100) !important; */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+    max-height: 100vh;
+    /* max-height: calc(var(--vh, 1vh) * 100) !important; */
 }
 
-html, body {
-  background-color: #F8F8F8;
-  height: 100%;
+html,
+body {
+    background-color: #f8f8f8;
+    height: 100%;
 }
 
 label {
-  margin: 0;
+    margin: 0;
 }
 
 input {
-  border: 1px solid lightgray;
+    border: 1px solid lightgray;
 }
 
 .App .grid * {
-  max-width: 100vw;
+    max-width: 100vw;
 }
 
 .vert-ctr-parent {
-  position: relative;
-  height: 100%;
+    position: relative;
+    height: 100%;
 }
 
 .vert-ctr {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  padding: 0 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    padding: 0 5px;
 }
 
 .ctr-txt {
-  text-align: center !important;
+    text-align: center !important;
 }
 
 .ellipsis {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ui.active.modal {
-  height: 350px;
-  width: 90%;
-  margin: 0 auto;
-  position: relative;
+    height: 350px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
 }
 
 .ui.active.modal .content {
-  height: 100%;
+    height: 100%;
 }
 
 .ui.disabled.checkbox {
-  opacity: 0.25;
+    opacity: 0.25;
 }
 
 .foil-bkgr {
-  background-image: linear-gradient(to bottom right, #FFFBD5 10%, #AAE0FA, #C2BCBA, #FAAA8F, #9BD3AE 90%);
-  /* background-image: url('https://raw.githubusercontent.com/JKDMarks/trade-tracker-frontend/master/public/foil-effect.png'); */
+    background-image: linear-gradient(
+        to bottom right,
+        #fffbd5 10%,
+        #aae0fa,
+        #c2bcba,
+        #faaa8f,
+        #9bd3ae 90%
+    );
+    /* background-image: url('https://raw.githubusercontent.com/JKDMarks/trade-tracker-frontend/master/public/foil-effect.png'); */
 }
 
 .header {
-  text-align: center;
-  background-color: lightgray;
-  color: midnightblue;
-  padding-bottom: 0 !important;
+    text-align: center;
+    background-color: lightgray;
+    color: midnightblue;
+    padding-bottom: 0 !important;
 }
 
 .header h1 {
-  padding: 5px 0;
+    padding: 5px 0;
 }
 
 .results {
-  max-height: 50vh;
-  /* max-height: calc(var(--vh, 1vh) * 50) !important; */
-  overflow-y: scroll;
+    max-height: 50vh;
+    /* max-height: calc(var(--vh, 1vh) * 50) !important; */
+    overflow-y: scroll;
 }
 
 .trade-col {
-  min-height: calc(100vh - 182px) !important;
-  max-height: calc(100vh - 182px) !important;
-  /* min-height: calc(var(--vh, 1vh) * 100 - 182px) !important;
+    min-height: calc(100vh - 182px) !important;
+    max-height: calc(100vh - 182px) !important;
+    /* min-height: calc(var(--vh, 1vh) * 100 - 182px) !important;
   max-height: calc(var(--vh, 1vh) * 100 - 182px) !important; */
-  overflow-y: scroll;
-  border: 3px solid rgba(0,0,0,.1);
-  /* border-top: 3px solid rgba(0,0,0,.1); */
-  border-left: 0;
-  border-right: 0;
+    overflow-y: scroll;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    /* border-top: 3px solid rgba(0,0,0,.1); */
+    border-left: 0;
+    border-right: 0;
 }
 
 ::-webkit-scrollbar {
-  width: 3px !important;
-  /* display: none; */
+    width: 3px !important;
+    /* display: none; */
 }
 
 .trade-card {
-  height: 75px;
-  /* padding: 5px; */
-  border: 1px solid gray;
+    height: 75px;
+    /* padding: 5px; */
+    border: 1px solid gray;
 }
 
 .trade-card:active {
-  background-color: lightgray;
+    background-color: lightgray;
 }
 
 .trade-card-text {
-  max-width: calc(50vw - 38px);
+    max-width: calc(50vw - 38px);
 }
 
 .price-col {
-  color: black;
-  font-size: 2em;
-  height: 100%;
-  /* -webkit-text-stroke: 1px white; */
+    color: black;
+    font-size: 2em;
+    height: 100%;
+    /* -webkit-text-stroke: 1px white; */
 }
 
 .spin {
-  animation: spin 4s infinite linear !important;
+    animation: spin 4s infinite linear !important;
 }
 
 @keyframes spin {
-  from {transform:rotate(0deg);}
-  to {transform:rotate(360deg);}
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 i.close.icon {
-  color: red !important;
+    color: red !important;
 }
 
 i.close.icon:active {
-  color: darkred !important;
+    color: darkred !important;
 }
