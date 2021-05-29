@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
-import { Grid, Button, Search, Icon } from 'semantic-ui-react'
-import uuid from 'uuid'
-import { useCookies } from 'react-cookie'
+import { Grid, Button, Search, Icon } from "semantic-ui-react";
+import uuid from "uuid";
+import { useCookies } from "react-cookie";
 
-import { useTrades } from './useCustom'
-import { Card, Overlay } from './components'
+import { useTrades } from "./useCustom";
+import { Card, Overlay } from "./components";
 
 // import { exampleTrade } from './helpers'
 //
@@ -19,259 +19,306 @@ import { Card, Overlay } from './components'
 // })
 
 function App() {
-  ////////// useState DECLARATIONS //////////
-  const [cookies, setCookie, removeCookie] = useCookies(['trades'])
+    ////////// useState DECLARATIONS //////////
+    const [cookies, setCookie, removeCookie] = useCookies(["trades"]);
 
-  const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
-  const [allCardNames, setAllCardNames] = useState([])  // LIST OF ALL CARD NAMES
-  const [query, setQuery] = useState('')                // INPUT IN SEARCH BAR
-  const [searchResult, setSearchResult] = useState([])  // LIST OF ALL CARD NAMES THAT MATCH query
+    const [allCardNames, setAllCardNames] = useState([]); // LIST OF ALL CARD NAMES
+    const [query, setQuery] = useState(""); // INPUT IN SEARCH BAR
+    const [searchResult, setSearchResult] = useState([]); // LIST OF ALL CARD NAMES THAT MATCH query
 
-  const [trades, setTrades, updateCard, deleteCard] = useTrades()  // ALL CARDS IN THE TRADE (BOTH COLS.)
-  const [leftTrades, setLeftTrades] = useTrades([])     // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
-  const [rightTrades, setRightTrades] = useTrades([])   // CARDS IN RIGHT COL. ONLY
+    const [trades, setTrades, updateCard, deleteCard] = useTrades(); // ALL CARDS IN THE TRADE (BOTH COLS.)
+    const [leftTrades, setLeftTrades] = useTrades([]); // CARDS IN LEFT COL ONLY, TECHNICALLY FAILS SSoT, BUT NEVER UPDATED DIRECTLY
+    const [rightTrades, setRightTrades] = useTrades([]); // CARDS IN RIGHT COL. ONLY
 
-  const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 })
+    const [tradePrices, setTradePrices] = useState({ left: 0, right: 0 });
 
-  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
-  const [isOverlayAdding, setIsOverlayAdding] = useState(true) // true IF ADDING A CARD, false IF EDITING A CARD
-  const [overlayCard, setOverlayCard] = useState({})
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+    const [isOverlayAdding, setIsOverlayAdding] = useState(true); // true IF ADDING A CARD, false IF EDITING A CARD
+    const [overlayCard, setOverlayCard] = useState({});
 
-  const [cardImg, setCardImg] = useState(null)
+    const [cardImg, setCardImg] = useState(null);
 
+    ////////// useEffect BLOCKS //////////
+    // FETCH CARD NAMES WHEN APP MOUNTS
+    useEffect(() => {
+        async function fetchAllCardNames() {
+            setIsLoading(true);
+            const resp = await fetch(
+                "https://api.scryfall.com/catalog/card-names"
+            );
+            const json = await resp.json();
 
-  ////////// useEffect BLOCKS //////////
-  // FETCH CARD NAMES WHEN APP MOUNTS
-  useEffect(() => {
-    async function fetchAllCardNames() {
-      setIsLoading(true)
-      const resp = await fetch('https://api.scryfall.com/catalog/card-names')
-      const json = await resp.json()
+            setAllCardNames(json.data);
+            setIsLoading(false);
+        }
 
-      setAllCardNames(json.data)
-      setIsLoading(false)
-    }
+        fetchAllCardNames();
+        // setTrades([ ...leftExample, ...rightExample, ])
 
-    fetchAllCardNames()
-    // setTrades([ ...leftExample, ...rightExample, ])
+        if (cookies.trades && cookies.trades.length > 0) {
+            const cardNames = cookies.trades.map(({ name }) => name);
+            const formattedCardNames = `(${cardNames
+                .map((name) => `!"${name}"`)
+                .join(" OR ")})`; // E.G. (!"Blood Crypt" OR !"Breeding Pool" OR !"Embercleave")
 
-    if (cookies.trades && cookies.trades.length > 0) {
-      const cardNames = cookies.trades.map(({name}) => name)
-      const formattedCardNames = `(${cardNames.map(name => `!"${name}"`).join(' OR ')})` // E.G. (!"Blood Crypt" OR !"Breeding Pool" OR !"Embercleave")
+            async function fetchCards() {
+                setIsLoading(true);
+                const resp = await fetch(
+                    `https://api.scryfall.com/cards/search?q=${formattedCardNames}%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`
+                );
+                const json = await resp.json();
 
-      async function fetchCards() {
-        setIsLoading(true)
-        const resp = await fetch(`https://api.scryfall.com/cards/search?q=${formattedCardNames}%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
-        const json = await resp.json()
+                let { data } = json;
+                // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
 
-        let { data } = json
-        // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
+                const cards = cookies.trades.map(
+                    ({ name, id, isFoil, isLeft, quantity, setIdx }) => {
+                        const editions = data.filter(
+                            (card) => card.name === name
+                        );
 
-        const cards = cookies.trades.map(({ name, id, isFoil, isLeft, quantity, setIdx }) => {
-          const editions = data.filter(card => card.name === name)
+                        return {
+                            id,
+                            isFoil,
+                            isLeft,
+                            quantity,
+                            setIdx,
+                            editions,
+                        };
+                    }
+                );
 
-          return { id, isFoil, isLeft, quantity, setIdx, editions }
-        })
+                setTrades(cards);
+                setIsLoading(false);
+            }
 
-        setTrades(cards)
-        setIsLoading(false)
-      }
+            fetchCards();
+        }
+    }, []);
 
-      fetchCards()
-    }
-  }, [])
+    useEffect(() => {
+        // UPDATE LEFT & RIGHT TRADES, TECHNICALLY FAILS SSoT
+        setLeftTrades(trades.filter((card) => card.isLeft));
+        setRightTrades(trades.filter((card) => !card.isLeft));
 
-  useEffect(() => {
-    // UPDATE LEFT & RIGHT TRADES, TECHNICALLY FAILS SSoT
-    setLeftTrades(trades.filter(card => card.isLeft))
-    setRightTrades(trades.filter(card => !card.isLeft))
+        // UPDATES CARD IN OVERLAY
+        if (isOverlayOpen) {
+            const changedCard = trades.find(
+                (card) => card.id === overlayCard.id
+            );
+            setOverlayCard(changedCard);
+        }
 
-    // UPDATES CARD IN OVERLAY
-    if (isOverlayOpen) {
-      const changedCard = trades.find(card => card.id === overlayCard.id)
-      setOverlayCard(changedCard)
-    }
+        // UPDATES cookies.trades
+        const cookieTrades = trades.map(
+            ({ id, editions, isFoil, isLeft, quantity, setIdx }) => ({
+                id,
+                isFoil,
+                isLeft,
+                quantity,
+                setIdx,
+                name: editions[0].name,
+            })
+        );
+        setCookie("trades", cookieTrades);
 
-    // UPDATES cookies.trades
-    const cookieTrades = trades.map(({id, editions, isFoil, isLeft, quantity, setIdx}) => ({id, isFoil, isLeft, quantity, setIdx, name: editions[0].name}))
-    setCookie('trades', cookieTrades)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [trades]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trades])
+    // UPDATE PRICES WHENEVER trades CHANGES
+    useEffect(() => {
+        const tradeSum = (trade) => {
+            if (trade.length > 0) {
+                return trade.reduce((sum, card) => {
+                    return (
+                        Number(sum) +
+                        Number(cardPrice(card)) * card.quantity
+                    ).toFixed(2);
+                }, 0);
+            } else {
+                return 0;
+            }
+        };
 
-  // UPDATE PRICES WHENEVER trades CHANGES
-  useEffect(() => {
-    const tradeSum = (trade) => {
-      if (trade.length > 0) {
-        return trade.reduce((sum, card) => {
-          return (Number(sum) + Number(cardPrice(card)) * card.quantity).toFixed(2)
-        }, 0)
-      } else {
-        return 0
-      }
-    }
+        setTradePrices({
+            left: Number(tradeSum(leftTrades)).toFixed(2),
+            right: Number(tradeSum(rightTrades)).toFixed(2),
+        });
+    }, [leftTrades, rightTrades]);
 
-    setTradePrices({
-      left: Number(tradeSum(leftTrades)).toFixed(2),
-      right: Number(tradeSum(rightTrades)).toFixed(2)
-    })
-  }, [leftTrades, rightTrades])
+    ////////// GENERAL FUNCTIONS //////////
+    const cardPrice = (card) =>
+        card.isFoil
+            ? card.editions[card.setIdx].prices.usd_foil
+            : card.editions[card.setIdx].prices.usd;
 
+    const findCard = (card) =>
+        trades.find((findCard) => findCard.id === card.id);
 
-  ////////// GENERAL FUNCTIONS //////////
-  const cardPrice = (card) => (card.isFoil) ? (card.editions[card.setIdx].prices.usd_foil) : (card.editions[card.setIdx].prices.usd)
+    // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
-  const findCard = (card) => trades.find(findCard => findCard.id === card.id)
+    const tradeDiffStr = () => {
+        const diff = tradePrices.left - tradePrices.right;
 
-  // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+        if (diff > 0) {
+            return `⏪ $${Number(diff).toFixed(2)}`;
+        } else if (diff < 0) {
+            return `$${Number(-diff).toFixed(2)} ⏩`;
+        } else {
+            return "Even trade";
+        }
+    };
 
-  const tradeDiffStr = () => {
-    const diff = tradePrices.left - tradePrices.right
+    ////////// SEARCHBAR FUNCTIONS //////////
+    const handleInputChange = (e, { value }) => {
+        setQuery(value);
 
-    if (diff > 0) {
-      return `⏪ $${Number(diff).toFixed(2)}`
-    } else if (diff < 0) {
-      return `$${Number(-diff).toFixed(2)} ⏩`
-    } else {
-      return "Even trade"
-    }
-  }
+        // setSearchResult TO ONLY THE FIRST 25 CARDS THAT MATCH THE QUERY
+        const re = new RegExp(value, "i");
+        setSearchResult(
+            allCardNames
+                .filter((card) => re.test(card))
+                .slice(0, 25)
+                .map((name, i) => ({ key: i, name, title: name }))
+        );
+    };
 
+    const handleResultSelect = (e, { result: { name } }) => {
+        setIsLoading(true);
+        setQuery(name);
 
-  ////////// SEARCHBAR FUNCTIONS //////////
-  const handleInputChange = (e, { value }) => {
-    setQuery(value)
+        async function fetchCard() {
+            const resp = await fetch(
+                `https://api.scryfall.com/cards/search?q=!"${name}"%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`
+            );
+            const json = await resp.json();
 
-    // setSearchResult TO ONLY THE FIRST 25 CARDS THAT MATCH THE QUERY
-    const re = new RegExp(value, 'i')
-    setSearchResult(allCardNames.filter(card => re.test(card)).slice(0, 25).map((name, i) => ({ key: i, name, title: name })))
-  }
+            let { data } = json;
+            // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
+            const card = {
+                id: uuid(),
+                editions: data,
+                setIdx: 0,
+                isFoil: !data[0].nonfoil,
+                quantity: 1,
+            };
 
-  const handleResultSelect = (e, { result: {name} }) => {
-    setIsLoading(true)
-    setQuery(name)
+            openOverlay(card, true);
+            setQuery("");
+            setIsLoading(false);
+        }
 
-    async function fetchCard() {
-      const resp = await fetch(`https://api.scryfall.com/cards/search?q=!"${name}"%20-is:digital%20(is:funny%20OR%20-is:funny)&unique=prints`)
-      const json = await resp.json()
+        fetchCard();
+    };
 
-      let { data } = json
-      // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
-      const card = { id: uuid(), editions: data, setIdx: 0, isFoil: false, quantity: 1 }
+    ////////// OVERLAY FUNCTIONS //////////
+    const openOverlay = (card, isAdding) => {
+        setIsOverlayOpen(true);
+        setOverlayCard(card);
+        setIsOverlayAdding(isAdding);
+        setQuery("");
+        document.querySelector(".card-search input").blur();
+    };
 
-      openOverlay(card, true)
-      setQuery('')
-      setIsLoading(false)
-    }
+    const closeOverlay = () => {
+        setIsOverlayOpen(false);
+        setOverlayCard({});
+    };
 
-    fetchCard()
-  }
+    // DETERMINES DEFAULT FOIL VALUE OF CARD
+    // IF EDITION HAS BOTH FOIL AND NONFOIL VERSIONS, RETURNS INPUT isFoil VALUE
+    // ELSE IF EDITION DOESN'T HAVE ONE OF THE TWO, RETURNS WHAT IT CAN BE
+    const foilVal = (card) => {
+        const { editions, setIdx, isFoil } = card;
+        const prices = editions[setIdx].prices;
+        if (prices.usd && prices.usd_foil) {
+            return isFoil;
+        } else if (!prices.usd) {
+            return true;
+        } else if (!prices.usd_foil) {
+            return false;
+        }
+    };
 
+    const editCardSet = (card, setIdx) => {
+        if (isOverlayAdding) {
+            const overlayCardCopy = { ...overlayCard, setIdx };
+            overlayCardCopy.isFoil = foilVal(overlayCardCopy);
+            setOverlayCard(overlayCardCopy);
+        } else {
+            const cardCopy = { ...findCard(card), setIdx };
+            cardCopy.isFoil = foilVal(cardCopy);
+            updateCard(cardCopy);
+        }
+    };
 
-  ////////// OVERLAY FUNCTIONS //////////
-  const openOverlay = (card, isAdding) => {
-    setIsOverlayOpen(true)
-    setOverlayCard(card)
-    setIsOverlayAdding(isAdding)
-    setQuery('')
-    document.querySelector('.card-search input').blur()
-  }
+    const editCardQuantity = (card, quantity) => {
+        quantity = Number(quantity);
+        if (quantity >= 0) {
+            if (isOverlayAdding) {
+                const overlayCardCopy = { ...overlayCard, quantity };
+                setOverlayCard(overlayCardCopy);
+            } else {
+                const cardCopy = { ...findCard(card), quantity };
+                updateCard(cardCopy);
+            }
+        }
+    };
 
-  const closeOverlay = () => {
-    setIsOverlayOpen(false)
-    setOverlayCard({})
-  }
+    const toggleFoil = (card) => {
+        if (isOverlayAdding) {
+            const overlayCardCopy = {
+                ...overlayCard,
+                isFoil: !overlayCard.isFoil,
+            };
+            setOverlayCard(overlayCardCopy);
+        } else {
+            const cardCopy = { ...findCard(card), isFoil: !card.isFoil };
+            updateCard(cardCopy);
+        }
+    };
 
-  // DETERMINES DEFAULT FOIL VALUE OF CARD
-  // IF EDITION HAS BOTH FOIL AND NONFOIL VERSIONS, RETURNS INPUT isFoil VALUE
-  // ELSE IF EDITION DOESN'T HAVE ONE OF THE TWO, RETURNS WHAT IT CAN BE
-  const foilVal = (card) => {
-    const { editions, setIdx, isFoil } = card
-    const prices = editions[setIdx].prices
-    if (prices.usd && prices.usd_foil) {
-      return isFoil
-    } else if (!prices.usd) {
-      return true
-    } else if (!prices.usd_foil) {
-      return false
-    }
-  }
+    const addToTrade = (isLeft) => {
+        const overlayCardCopy = { ...overlayCard, isLeft };
+        setTrades([overlayCardCopy, ...trades]);
+        closeOverlay();
+    };
 
-  const editCardSet = (card, setIdx) => {
-    if (isOverlayAdding) {
-      const overlayCardCopy = { ...overlayCard, setIdx }
-      overlayCardCopy.isFoil = foilVal(overlayCardCopy)
-      setOverlayCard(overlayCardCopy)
-    } else {
-      const cardCopy = { ...findCard(card), setIdx }
-      cardCopy.isFoil = foilVal(cardCopy)
-      updateCard(cardCopy)
-    }
-  }
+    const deleteFromTrade = (card) => {
+        deleteCard(card);
+        setIsOverlayOpen(false);
+        setOverlayCard({});
+    };
 
-  const editCardQuantity = (card, quantity) => {
-    quantity = Number(quantity)
-    if (quantity >= 0) {
-      if (isOverlayAdding) {
-        const overlayCardCopy = { ...overlayCard, quantity }
-        setOverlayCard(overlayCardCopy)
-      } else {
-        const cardCopy = { ...findCard(card), quantity }
-        updateCard(cardCopy)
-      }
-    }
-  }
+    ////////// JSX //////////
+    return (
+        <div className="App">
+            <Grid centered>
+                {/* ///// HEADER ///// */}
+                <Grid.Row centered className="header">
+                    <Grid.Column width={2} className="vert-ctr-parent">
+                        <Button
+                            content="X"
+                            color="red"
+                            className="p-0 m-0 vert-ctr"
+                            style={{ width: "15px", height: "15px" }}
+                            onClick={() => {
+                                const confirmClear =
+                                    window.confirm("Clear this trade?");
 
-  const toggleFoil = (card) => {
-    if (isOverlayAdding) {
-      const overlayCardCopy = { ...overlayCard, isFoil: !overlayCard.isFoil }
-      setOverlayCard(overlayCardCopy)
-    } else {
-      const cardCopy = { ...findCard(card), isFoil: !card.isFoil }
-      updateCard(cardCopy)
-    }
-  }
-
-  const addToTrade = (isLeft) => {
-    const overlayCardCopy = { ...overlayCard, isLeft }
-    setTrades([ overlayCardCopy, ...trades ])
-    closeOverlay()
-  }
-
-  const deleteFromTrade = (card) => {
-    deleteCard(card)
-    setIsOverlayOpen(false)
-    setOverlayCard({})
-  }
-
-
-  ////////// JSX //////////
-  return (
-    <div className='App'>
-      <Grid centered>
-        {/* ///// HEADER ///// */}
-        <Grid.Row centered className='header'>
-          <Grid.Column width={2} className='vert-ctr-parent'>
-            <Button
-              content='X'
-              color='red'
-              className='p-0 m-0 vert-ctr'
-              style={{width: '15px', height: '15px'}}
-              onClick={() => {
-                const confirmClear = window.confirm('Clear this trade?')
-
-                if (confirmClear) {
-                  setTrades([])
-                }
-              }}
-            />
-          </Grid.Column>
-          <Grid.Column width={12} textAlign='center'>
-            <h1>Trade Tracker</h1>
-          </Grid.Column>
-          <Grid.Column width={2}>
-            {/*
+                                if (confirmClear) {
+                                    setTrades([]);
+                                }
+                            }}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={12} textAlign="center">
+                        <h1>Trade Tracker</h1>
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                        {/*
               // 'INFO ABOUT APP AND ME'
               <Button
                 content='ℹ'
@@ -281,118 +328,177 @@ function App() {
                 onClick={() => console.log('hi')}
                 />
             */}
-          </Grid.Column>
-        </Grid.Row>
+                    </Grid.Column>
+                </Grid.Row>
 
-        {/* ///// CARD SEARCH BAR ///// */}
-        <Grid.Row style={{backgroundColor: '#555555'}}>
-          <Search
-            className='card-search'
-            onSearchChange={handleInputChange}
-            onResultSelect={handleResultSelect}
-            results={searchResult}
-            value={query}
-          />
-        </Grid.Row>
+                {/* ///// CARD SEARCH BAR ///// */}
+                <Grid.Row style={{ backgroundColor: "#555555" }}>
+                    <Search
+                        className="card-search"
+                        onSearchChange={handleInputChange}
+                        onResultSelect={handleResultSelect}
+                        results={searchResult}
+                        value={query}
+                    />
+                </Grid.Row>
 
-        {/* ///// TRADE DIFFERENCE ///// */}
-        <Grid.Row centered className='p-0 price-col' columns={1} style={{height: '35px', width: '100vw', backgroundColor: 'lightgreen'}}>
-          <div className='vert-ctr-parent'>
-            <div className='vert-ctr'>
-              {tradeDiffStr()}
-            </div>
-          </div>
-        </Grid.Row>
+                {/* ///// TRADE DIFFERENCE ///// */}
+                <Grid.Row
+                    centered
+                    className="p-0 price-col"
+                    columns={1}
+                    style={{
+                        height: "35px",
+                        width: "100vw",
+                        backgroundColor: "lightgreen",
+                    }}
+                >
+                    <div className="vert-ctr-parent">
+                        <div className="vert-ctr">{tradeDiffStr()}</div>
+                    </div>
+                </Grid.Row>
 
-        {/* ///// TRADE SUMS ///// */}
-        <Grid.Row centered className='p-0' columns={2} style={{height: '35px', width: '100vw'}}>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'lightblue', height: '100%'}}>
-            <div className='vert-ctr-parent'>
-              <div className='vert-ctr'>
-                ${tradePrices.left} ({trades.reduce((acc, cur) => (cur.isLeft ? acc + cur.quantity : acc), 0)})
-              </div>
-            </div>
-          </Grid.Column>
-          <Grid.Column className='ctr-txt price-col' style={{backgroundColor: 'pink', height: '100%'}}>
-            <div className='vert-ctr-parent'>
-              <div className='vert-ctr'>
-                ${tradePrices.right} ({trades.reduce((acc, cur) => (!cur.isLeft ? acc + cur.quantity : acc), 0)})
-              </div>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
+                {/* ///// TRADE SUMS ///// */}
+                <Grid.Row
+                    centered
+                    className="p-0"
+                    columns={2}
+                    style={{ height: "35px", width: "100vw" }}
+                >
+                    <Grid.Column
+                        className="ctr-txt price-col"
+                        style={{ backgroundColor: "lightblue", height: "100%" }}
+                    >
+                        <div className="vert-ctr-parent">
+                            <div className="vert-ctr">
+                                ${tradePrices.left} (
+                                {trades.reduce(
+                                    (acc, cur) =>
+                                        cur.isLeft ? acc + cur.quantity : acc,
+                                    0
+                                )}
+                                )
+                            </div>
+                        </div>
+                    </Grid.Column>
+                    <Grid.Column
+                        className="ctr-txt price-col"
+                        style={{ backgroundColor: "pink", height: "100%" }}
+                    >
+                        <div className="vert-ctr-parent">
+                            <div className="vert-ctr">
+                                ${tradePrices.right} (
+                                {trades.reduce(
+                                    (acc, cur) =>
+                                        !cur.isLeft ? acc + cur.quantity : acc,
+                                    0
+                                )}
+                                )
+                            </div>
+                        </div>
+                    </Grid.Column>
+                </Grid.Row>
 
-        {/* ///// CARD COLUMNS ///// */}
-        <Grid.Row style={{position: 'relative'}} className='py-0' columns={2}>
-          <Grid.Column className='trade-col px-0' style={{borderLeft: '3px solid rgba(0,0,0,.1)'}}>
-            {leftTrades.map((card) => (
-              <Card
-                key={card.id}
-                card={card} isLeft={true}
-                openOverlay={openOverlay}
+                {/* ///// CARD COLUMNS ///// */}
+                <Grid.Row
+                    style={{ position: "relative" }}
+                    className="py-0"
+                    columns={2}
+                >
+                    <Grid.Column
+                        className="trade-col px-0"
+                        style={{ borderLeft: "3px solid rgba(0,0,0,.1)" }}
+                    >
+                        {leftTrades.map((card) => (
+                            <Card
+                                key={card.id}
+                                card={card}
+                                isLeft={true}
+                                openOverlay={openOverlay}
+                                cardPrice={cardPrice}
+                            />
+                        ))}
+                    </Grid.Column>
+                    <Grid.Column className="trade-col px-0">
+                        {rightTrades.map((card) => (
+                            <Card
+                                key={card.id}
+                                card={card}
+                                isLeft={false}
+                                openOverlay={openOverlay}
+                                cardPrice={cardPrice}
+                            />
+                        ))}
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+
+            {/* ///// EDIT/ADD CARD POPUP ///// */}
+            <Overlay
+                card={overlayCard}
+                isAdding={isOverlayAdding}
                 cardPrice={cardPrice}
-              />
-            ))}
-          </Grid.Column>
-          <Grid.Column className='trade-col px-0'>
-            {rightTrades.map((card) => (
-              <Card
-                key={card.id}
-                card={card} isLeft={false}
-                openOverlay={openOverlay}
-                cardPrice={cardPrice}
-              />
-            ))}
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-
-      {/* ///// EDIT/ADD CARD POPUP ///// */}
-      <Overlay
-        card={overlayCard}
-        isAdding={isOverlayAdding}
-        cardPrice={cardPrice}
-        isOpen={isOverlayOpen}
-        closeOverlay={closeOverlay}
-        editCardSet={editCardSet}
-        editCardQuantity={editCardQuantity}
-        toggleFoil={toggleFoil}
-        addToTrade={addToTrade}
-        deleteFromTrade={deleteFromTrade}
-        setCardImg={setCardImg}
-      />
-
-      {
-        (cardImg) ? (
-          <div style={{zIndex: '1001', maxWidth: '90vw', minWidth: '90vw', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-            <img
-              style={{maxWidth: '100%'}}
-              src={cardImg} alt='card-img'
+                isOpen={isOverlayOpen}
+                closeOverlay={closeOverlay}
+                editCardSet={editCardSet}
+                editCardQuantity={editCardQuantity}
+                toggleFoil={toggleFoil}
+                addToTrade={addToTrade}
+                deleteFromTrade={deleteFromTrade}
+                setCardImg={setCardImg}
             />
-            <Icon
-              name='close' color='red' size='big'
-              style={{position: 'absolute', top: '10%', right: '5%'}}
-              onClick={() => setCardImg(null)}
-            />
-          </div>
-        ) : (null)
-      }
 
-      {
-        (isLoading) ? (
-          <div style={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)'}}>
-            <img
-              src='/images/WUBRG.png'
-              className='spin'
-              height='150px'
-              width='150px'
-              alt='spinning mana pentagon'
-            />
-          </div>
-        ) : (null)
-      }
-    </div>
-  )
+            {cardImg ? (
+                <div
+                    style={{
+                        zIndex: "1001",
+                        maxWidth: "90vw",
+                        minWidth: "90vw",
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}
+                >
+                    <img
+                        style={{ maxWidth: "100%" }}
+                        src={cardImg}
+                        alt="card-img"
+                    />
+                    <Icon
+                        name="close"
+                        color="red"
+                        size="big"
+                        style={{
+                            position: "absolute",
+                            top: "10%",
+                            right: "5%",
+                        }}
+                        onClick={() => setCardImg(null)}
+                    />
+                </div>
+            ) : null}
+
+            {isLoading ? (
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}
+                >
+                    <img
+                        src="/images/WUBRG.png"
+                        className="spin"
+                        height="150px"
+                        width="150px"
+                        alt="spinning mana pentagon"
+                    />
+                </div>
+            ) : null}
+        </div>
+    );
 }
 
-export default App
+export default App;
