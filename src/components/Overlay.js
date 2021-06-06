@@ -41,7 +41,7 @@ function Overlay({
                 <Modal.Content className="vert-ctr-parent">
                     {editions && editions.length > 0 ? (
                         <Grid centered className="vert-ctr">
-                            <Grid.Row>
+                            <Grid.Row className="pb-0">
                                 <Grid.Column textAlign="center">
                                     <Icon
                                         name="picture"
@@ -51,11 +51,18 @@ function Overlay({
                                         color="teal"
                                         onClick={() => setCardImg(cardImageUrl)}
                                     />
-                                    <u>{card.editions[setIdx].name}</u>
+                                    <u>
+                                        {card.editions[setIdx].name}{" "}
+                                        {editions[0].reserved ? (
+                                            <span style={{ color: "grey" }}>
+                                                (RL)
+                                            </span>
+                                        ) : null}
+                                    </u>
                                 </Grid.Column>
                             </Grid.Row>
 
-                            <Grid.Row>
+                            <Grid.Row className="pt-0">
                                 <Grid.Column textAlign="center">
                                     Price Per Card: ${cardPrice(card)}
                                 </Grid.Column>

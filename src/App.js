@@ -363,7 +363,11 @@ function App() {
                     centered
                     className="p-0"
                     columns={2}
-                    style={{ height: "35px", width: "100vw" }}
+                    style={{
+                        height: "35px",
+                        width: "100vw",
+                        fontSize: "1.5vh",
+                    }}
                 >
                     <Grid.Column
                         className="ctr-txt price-col"
