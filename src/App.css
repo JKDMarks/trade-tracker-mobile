@@ -95,8 +95,8 @@ input {
 }
 
 .trade-col {
-    min-height: calc(100vh - 182px - 50px) !important;
-    max-height: calc(100vh - 182px - 50px) !important;
+    min-height: calc(100vh - 182px) !important;
+    max-height: calc(100vh - 182px) !important;
     /* min-height: calc(var(--vh, 1vh) * 100 - 182px) !important;
   max-height: calc(var(--vh, 1vh) * 100 - 182px) !important; */
     overflow-y: scroll;
