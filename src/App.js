@@ -292,9 +292,18 @@ function App() {
         setOverlayCard({});
     };
 
+    const barHeight = () =>
+        document.querySelector("#control-height")
+            ? `calc(100vh - ${
+                  document.querySelector("#control-height").clientHeight -
+                  window.innerHeight
+              }px - 182px)`
+            : "calc(100vh - 182px)";
+
     ////////// JSX //////////
     return (
         <div className="App">
+            <div id="control-height"></div>
             <Grid centered>
                 {/* ///// HEADER ///// */}
                 <Grid.Row centered className="header">
@@ -366,7 +375,7 @@ function App() {
                     style={{
                         height: "35px",
                         width: "100vw",
-                        fontSize: "1.5vh",
+                        fontSize: "0.75em",
                     }}
                 >
                     <Grid.Column
@@ -411,7 +420,11 @@ function App() {
                 >
                     <Grid.Column
                         className="trade-col px-0"
-                        style={{ borderLeft: "3px solid rgba(0,0,0,.1)" }}
+                        style={{
+                            borderLeft: "3px solid rgba(0,0,0,.1)",
+                            minHeight: barHeight(),
+                            maxHeight: barHeight(),
+                        }}
                     >
                         {leftTrades.map((card) => (
                             <Card
@@ -423,7 +436,13 @@ function App() {
                             />
                         ))}
                     </Grid.Column>
-                    <Grid.Column className="trade-col px-0">
+                    <Grid.Column
+                        className="trade-col px-0"
+                        style={{
+                            minHeight: barHeight(),
+                            maxHeight: barHeight(),
+                        }}
+                    >
                         {rightTrades.map((card) => (
                             <Card
                                 key={card.id}
