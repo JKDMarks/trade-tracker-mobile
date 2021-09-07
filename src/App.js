@@ -47,9 +47,7 @@ function App() {
     useEffect(() => {
         async function fetchAllCardNames() {
             setIsLoading(true);
-            const resp = await fetch(
-                "https://api.scryfall.com/catalog/card-names"
-            );
+            const resp = await fetch("https://api.scryfall.com/catalog/card-names");
             const json = await resp.json();
 
             setAllCardNames(json.data);
@@ -61,9 +59,7 @@ function App() {
 
         if (cookies.trades && cookies.trades.length > 0) {
             const cardNames = cookies.trades.map(({ name }) => name);
-            const formattedCardNames = `(${cardNames
-                .map((name) => `!"${name}"`)
-                .join(" OR ")})`; // E.G. (!"Blood Crypt" OR !"Breeding Pool" OR !"Embercleave")
+            const formattedCardNames = `(${cardNames.map((name) => `!"${name}"`).join(" OR ")})`; // E.G. (!"Blood Crypt" OR !"Breeding Pool" OR !"Embercleave")
 
             async function fetchCards() {
                 setIsLoading(true);
@@ -75,22 +71,18 @@ function App() {
                 let { data } = json;
                 // data = data.map(({ id, name, set, set_name, image_uris, prices }) => ({ id, name, set, set_name, image_uris, prices }))
 
-                const cards = cookies.trades.map(
-                    ({ name, id, isFoil, isLeft, quantity, setIdx }) => {
-                        const editions = data.filter(
-                            (card) => card.name === name
-                        );
+                const cards = cookies.trades.map(({ name, id, isFoil, isLeft, quantity, setIdx }) => {
+                    const editions = data.filter((card) => card.name === name);
 
-                        return {
-                            id,
-                            isFoil,
-                            isLeft,
-                            quantity,
-                            setIdx,
-                            editions,
-                        };
-                    }
-                );
+                    return {
+                        id,
+                        isFoil,
+                        isLeft,
+                        quantity,
+                        setIdx,
+                        editions,
+                    };
+                });
 
                 setTrades(cards);
                 setIsLoading(false);
@@ -107,23 +99,19 @@ function App() {
 
         // UPDATES CARD IN OVERLAY
         if (isOverlayOpen) {
-            const changedCard = trades.find(
-                (card) => card.id === overlayCard.id
-            );
+            const changedCard = trades.find((card) => card.id === overlayCard.id);
             setOverlayCard(changedCard);
         }
 
         // UPDATES cookies.trades
-        const cookieTrades = trades.map(
-            ({ id, editions, isFoil, isLeft, quantity, setIdx }) => ({
-                id,
-                isFoil,
-                isLeft,
-                quantity,
-                setIdx,
-                name: editions[0].name,
-            })
-        );
+        const cookieTrades = trades.map(({ id, editions, isFoil, isLeft, quantity, setIdx }) => ({
+            id,
+            isFoil,
+            isLeft,
+            quantity,
+            setIdx,
+            name: editions[0].name,
+        }));
         setCookie("trades", cookieTrades);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,10 +122,7 @@ function App() {
         const tradeSum = (trade) => {
             if (trade.length > 0) {
                 return trade.reduce((sum, card) => {
-                    return (
-                        Number(sum) +
-                        Number(cardPrice(card)) * card.quantity
-                    ).toFixed(2);
+                    return (Number(sum) + Number(cardPrice(card)) * card.quantity).toFixed(2);
                 }, 0);
             } else {
                 return 0;
@@ -152,12 +137,9 @@ function App() {
 
     ////////// GENERAL FUNCTIONS //////////
     const cardPrice = (card) =>
-        card.isFoil
-            ? card.editions[card.setIdx].prices.usd_foil
-            : card.editions[card.setIdx].prices.usd;
+        card.isFoil ? card.editions[card.setIdx].prices.usd_foil : card.editions[card.setIdx].prices.usd;
 
-    const findCard = (card) =>
-        trades.find((findCard) => findCard.id === card.id);
+    const findCard = (card) => trades.find((findCard) => findCard.id === card.id);
 
     // const formattedCardPrice = (card) => cardPrice(card).replace(/\d(?=(\d{3})+\.)/g, '$&,')
 
@@ -296,10 +278,7 @@ function App() {
 
     const barHeight = () =>
         document.querySelector("#control-height")
-            ? `calc(100vh - ${
-                  document.querySelector("#control-height").clientHeight -
-                  window.innerHeight
-              }px - 182px)`
+            ? `calc(100vh - ${document.querySelector("#control-height").clientHeight - window.innerHeight}px - 182px)`
             : "calc(100vh - 182px)";
 
     ////////// SETINGS FUNCTIONS //////////
@@ -325,8 +304,7 @@ function App() {
                             className="p-0 m-0 vert-ctr"
                             style={{ width: "15px", height: "15px" }}
                             onClick={() => {
-                                const confirmClear =
-                                    window.confirm("Clear this trade?");
+                                const confirmClear = window.confirm("Clear this trade?");
 
                                 if (confirmClear) {
                                     setTrades([]);
@@ -400,46 +378,26 @@ function App() {
                         fontSize: "0.75em",
                     }}
                 >
-                    <Grid.Column
-                        className="ctr-txt price-col"
-                        style={{ backgroundColor: "lightblue", height: "100%" }}
-                    >
+                    <Grid.Column className="ctr-txt price-col" style={{ backgroundColor: "lightblue", height: "100%" }}>
                         <div className="vert-ctr-parent">
                             <div className="vert-ctr">
                                 ${tradePrices.left} (
-                                {trades.reduce(
-                                    (acc, cur) =>
-                                        cur.isLeft ? acc + cur.quantity : acc,
-                                    0
-                                )}
-                                )
+                                {trades.reduce((acc, cur) => (cur.isLeft ? acc + cur.quantity : acc), 0)})
                             </div>
                         </div>
                     </Grid.Column>
-                    <Grid.Column
-                        className="ctr-txt price-col"
-                        style={{ backgroundColor: "pink", height: "100%" }}
-                    >
+                    <Grid.Column className="ctr-txt price-col" style={{ backgroundColor: "pink", height: "100%" }}>
                         <div className="vert-ctr-parent">
                             <div className="vert-ctr">
                                 ${tradePrices.right} (
-                                {trades.reduce(
-                                    (acc, cur) =>
-                                        !cur.isLeft ? acc + cur.quantity : acc,
-                                    0
-                                )}
-                                )
+                                {trades.reduce((acc, cur) => (!cur.isLeft ? acc + cur.quantity : acc), 0)})
                             </div>
                         </div>
                     </Grid.Column>
                 </Grid.Row>
 
                 {/* ///// CARD COLUMNS ///// */}
-                <Grid.Row
-                    style={{ position: "relative" }}
-                    className="py-0"
-                    columns={2}
-                >
+                <Grid.Row style={{ position: "relative" }} className="py-0" columns={2}>
                     <Grid.Column
                         className="trade-col px-0"
                         style={{
@@ -507,11 +465,7 @@ function App() {
                         transform: "translate(-50%, -50%)",
                     }}
                 >
-                    <img
-                        style={{ maxWidth: "100%" }}
-                        src={cardImg}
-                        alt="card-img"
-                    />
+                    <img style={{ maxWidth: "100%" }} src={cardImg} alt="card-img" />
                     <Icon
                         name="close"
                         color="red"

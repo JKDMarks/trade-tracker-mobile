@@ -6,23 +6,11 @@ function Card({ card, openOverlay, cardPrice }) {
 
     return (
         <div
-            className={`trade-card vert-ctr-parent ${
-                isFoil ? "foil-bkgr" : null
-            }`}
-            onClick={
-                () => openOverlay(card, false) /* SECOND ARG IS isAdding */
-            }
+            className={`trade-card vert-ctr-parent ${isFoil ? "foil-bkgr" : null}`}
+            onClick={() => openOverlay(card, false) /* SECOND ARG IS isAdding */}
         >
-            <Grid
-                centered
-                className="m-0"
-                style={{ height: "100%", maxHeight: "100%" }}
-            >
-                <Grid.Row
-                    className="p-0"
-                    textAlign="center"
-                    style={{ maxWidth: "100%" }}
-                >
+            <Grid centered className="m-0" style={{ height: "100%", maxHeight: "100%" }}>
+                <Grid.Row className="p-0" textAlign="center" style={{ maxWidth: "100%" }}>
                     <Grid.Column className="ellipsis" verticalAlign="middle">
                         {editions[setIdx].name}
                     </Grid.Column>
@@ -36,8 +24,7 @@ function Card({ card, openOverlay, cardPrice }) {
                         <span>${cardPrice(card)}</span>
                         <br />
                         <span style={{ color: "#0000aa" }}>
-                            x{quantity} ={" "}
-                            <u>{(cardPrice(card) * quantity).toFixed(2)}</u>
+                            x{quantity} = <u>{(cardPrice(card) * quantity).toFixed(2)}</u>
                         </span>
                     </Grid.Column>
                     <Grid.Column width={6}>

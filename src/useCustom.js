@@ -4,8 +4,7 @@ import { useState } from "react";
 export function useTrades() {
     const [cards, setCards] = useState([]);
 
-    const findCardIdx = (card) =>
-        cards.findIndex((findCard) => findCard.id === card.id);
+    const findCardIdx = (card) => cards.findIndex((findCard) => findCard.id === card.id);
 
     // const findCard = (card) => cards[findCardIdx(card)]
 
@@ -24,11 +23,7 @@ export function useTrades() {
     const updateCard = (card) => {
         const cardIdx = findCardIdx(card);
 
-        setCards([
-            ...cards.slice(0, cardIdx),
-            card,
-            ...cards.slice(cardIdx + 1),
-        ]);
+        setCards([...cards.slice(0, cardIdx), card, ...cards.slice(cardIdx + 1)]);
     };
 
     const deleteCard = (card) => {

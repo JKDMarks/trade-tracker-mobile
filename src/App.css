@@ -77,14 +77,7 @@ input {
 }
 
 .foil-bkgr {
-    background-image: linear-gradient(
-        to bottom right,
-        #fffbd5 10%,
-        #aae0fa,
-        #c2bcba,
-        #faaa8f,
-        #9bd3ae 90%
-    );
+    background-image: linear-gradient(to bottom right, #fffbd5 10%, #aae0fa, #c2bcba, #faaa8f, #9bd3ae 90%);
     /* background-image: url('https://raw.githubusercontent.com/JKDMarks/trade-tracker-frontend/master/public/foil-effect.png'); */
 }
 

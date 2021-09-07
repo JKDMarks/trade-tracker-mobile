@@ -12,8 +12,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-01-25",
             uri: "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5",
-            scryfall_uri:
-                "https://scryfall.com/card/rna/245/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/rna/245/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -59,13 +58,10 @@ const exampleTrade = [
             set: "rna",
             set_name: "Ravnica Allegiance",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/97a7fd84-8d89-45a3-b48b-c951f6a3f9f1",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Arna&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/97a7fd84-8d89-45a3-b48b-c951f6a3f9f1",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Arna&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/rna?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "245",
@@ -97,13 +93,11 @@ const exampleTrade = [
                 tix: "3.34",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=457389",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=457389",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -126,8 +120,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2012-10-05",
             uri: "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1",
-            scryfall_uri:
-                "https://scryfall.com/card/rtr/238/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/rtr/238/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -173,21 +166,17 @@ const exampleTrade = [
             set: "rtr",
             set_name: "Return to Ravnica",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/80b2374d-c5f1-403e-9772-f6c806fd275e",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Artr&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/80b2374d-c5f1-403e-9772-f6c806fd275e",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Artr&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/rtr?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "238",
             digital: false,
             rarity: "rare",
             watermark: "rakdos",
-            flavor_text:
-                "Where the dead serve as diversion, decor, and dessert.",
+            flavor_text: "Where the dead serve as diversion, decor, and dessert.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Vincent Proce",
             artist_ids: ["d82b1138-76d3-49f7-9d8c-bc2e2d3e0b0a"],
@@ -206,13 +195,11 @@ const exampleTrade = [
                 tix: "3.27",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=253683",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=253683",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -235,8 +222,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2006-05-05",
             uri: "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11",
-            scryfall_uri:
-                "https://scryfall.com/card/dis/171/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/dis/171/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -282,13 +268,10 @@ const exampleTrade = [
             set: "dis",
             set_name: "Dissension",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/fdebeda1-b95f-4343-8a94-d125821e6b5c",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Adis&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/fdebeda1-b95f-4343-8a94-d125821e6b5c",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Adis&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/dis?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "171",
@@ -313,13 +296,11 @@ const exampleTrade = [
                 tix: "3.30",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97102",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97102",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -340,8 +321,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-04-28",
             uri: "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124",
-            scryfall_uri:
-                "https://scryfall.com/card/prm/72301/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/prm/72301/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -387,13 +367,10 @@ const exampleTrade = [
             set: "prm",
             set_name: "Magic Online Promos",
             set_type: "promo",
-            set_uri:
-                "https://api.scryfall.com/sets/638940fb-6be9-4be3-b83f-68d3902fbbe5",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aprm&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/638940fb-6be9-4be3-b83f-68d3902fbbe5",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aprm&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/prm?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "72301",
@@ -415,8 +392,7 @@ const exampleTrade = [
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -436,8 +412,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-01-25",
             uri: "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f",
-            scryfall_uri:
-                "https://scryfall.com/card/prna/245p/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/prna/245p/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -483,13 +458,10 @@ const exampleTrade = [
             set: "prna",
             set_name: "Ravnica Allegiance Promos",
             set_type: "promo",
-            set_uri:
-                "https://api.scryfall.com/sets/503230ec-81e3-4f92-b847-ff435b1652e0",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aprna&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/503230ec-81e3-4f92-b847-ff435b1652e0",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aprna&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/prna?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "245p",
@@ -514,8 +486,7 @@ const exampleTrade = [
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -538,8 +509,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2015-10-02",
             uri: "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726",
-            scryfall_uri:
-                "https://scryfall.com/card/exp/8/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/exp/8/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -585,13 +555,10 @@ const exampleTrade = [
             set: "exp",
             set_name: "Zendikar Expeditions",
             set_type: "masterpiece",
-            set_uri:
-                "https://api.scryfall.com/sets/f6ccda04-e8ef-4260-8453-9408d788bacf",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aexp&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/f6ccda04-e8ef-4260-8453-9408d788bacf",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aexp&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/exp?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "8",
@@ -610,13 +577,11 @@ const exampleTrade = [
             edhrec_rank: 71,
             prices: { usd: null, usd_foil: "80.51", eur: "65.19", tix: "4.70" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=405093",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=405093",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -641,8 +606,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-01-25",
             uri: "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5",
-            scryfall_uri:
-                "https://scryfall.com/card/rna/245/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/rna/245/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -688,13 +652,10 @@ const exampleTrade = [
             set: "rna",
             set_name: "Ravnica Allegiance",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/97a7fd84-8d89-45a3-b48b-c951f6a3f9f1",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Arna&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/97a7fd84-8d89-45a3-b48b-c951f6a3f9f1",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Arna&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/rna?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/5faba6c8-3463-47c1-ba01-09eb87fcb2d5/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "245",
@@ -726,13 +687,11 @@ const exampleTrade = [
                 tix: "3.34",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=457389",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=457389",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -755,8 +714,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2012-10-05",
             uri: "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1",
-            scryfall_uri:
-                "https://scryfall.com/card/rtr/238/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/rtr/238/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -802,21 +760,17 @@ const exampleTrade = [
             set: "rtr",
             set_name: "Return to Ravnica",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/80b2374d-c5f1-403e-9772-f6c806fd275e",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Artr&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/80b2374d-c5f1-403e-9772-f6c806fd275e",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Artr&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/rtr?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/8bd5828b-8dcd-4ce6-b834-ebe9cbaa12d1/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "238",
             digital: false,
             rarity: "rare",
             watermark: "rakdos",
-            flavor_text:
-                "Where the dead serve as diversion, decor, and dessert.",
+            flavor_text: "Where the dead serve as diversion, decor, and dessert.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Vincent Proce",
             artist_ids: ["d82b1138-76d3-49f7-9d8c-bc2e2d3e0b0a"],
@@ -835,13 +789,11 @@ const exampleTrade = [
                 tix: "3.27",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=253683",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=253683",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -864,8 +816,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2006-05-05",
             uri: "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11",
-            scryfall_uri:
-                "https://scryfall.com/card/dis/171/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/dis/171/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -911,13 +862,10 @@ const exampleTrade = [
             set: "dis",
             set_name: "Dissension",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/fdebeda1-b95f-4343-8a94-d125821e6b5c",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Adis&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/fdebeda1-b95f-4343-8a94-d125821e6b5c",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Adis&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/dis?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/f281e16f-0fe1-4095-bd63-0a4479f75c11/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "171",
@@ -942,13 +890,11 @@ const exampleTrade = [
                 tix: "3.30",
             },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97102",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=97102",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -969,8 +915,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-04-28",
             uri: "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124",
-            scryfall_uri:
-                "https://scryfall.com/card/prm/72301/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/prm/72301/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1016,13 +961,10 @@ const exampleTrade = [
             set: "prm",
             set_name: "Magic Online Promos",
             set_type: "promo",
-            set_uri:
-                "https://api.scryfall.com/sets/638940fb-6be9-4be3-b83f-68d3902fbbe5",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aprm&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/638940fb-6be9-4be3-b83f-68d3902fbbe5",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aprm&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/prm?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/1f1eecf3-0812-4fe2-a1d3-daacff09d124/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "72301",
@@ -1044,8 +986,7 @@ const exampleTrade = [
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1065,8 +1006,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2019-01-25",
             uri: "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f",
-            scryfall_uri:
-                "https://scryfall.com/card/prna/245p/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/prna/245p/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1112,13 +1052,10 @@ const exampleTrade = [
             set: "prna",
             set_name: "Ravnica Allegiance Promos",
             set_type: "promo",
-            set_uri:
-                "https://api.scryfall.com/sets/503230ec-81e3-4f92-b847-ff435b1652e0",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aprna&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/503230ec-81e3-4f92-b847-ff435b1652e0",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aprna&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/prna?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/3d7c66e7-2b43-443f-998c-80613735a87f/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "245p",
@@ -1143,8 +1080,7 @@ const exampleTrade = [
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1167,8 +1103,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2015-10-02",
             uri: "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726",
-            scryfall_uri:
-                "https://scryfall.com/card/exp/8/blood-crypt?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/exp/8/blood-crypt?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1214,13 +1149,10 @@ const exampleTrade = [
             set: "exp",
             set_name: "Zendikar Expeditions",
             set_type: "masterpiece",
-            set_uri:
-                "https://api.scryfall.com/sets/f6ccda04-e8ef-4260-8453-9408d788bacf",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aexp&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/f6ccda04-e8ef-4260-8453-9408d788bacf",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aexp&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/exp?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/399f4d04-65ee-478d-9184-d33bb355e726/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A43985bbc-a0f6-4812-984e-392bc8562633&unique=prints",
             collector_number: "8",
@@ -1239,13 +1171,11 @@ const exampleTrade = [
             edhrec_rank: 71,
             prices: { usd: null, usd_foil: "80.51", eur: "65.19", tix: "4.70" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=405093",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=405093",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Blood+Crypt&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Blood+Crypt",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Blood+Crypt",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1268,8 +1198,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2014-12-05",
             uri: "https://api.scryfall.com/cards/69cf2f25-dc3e-457d-9d50-22a966a20d5e",
-            scryfall_uri:
-                "https://scryfall.com/card/dvd/23/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/dvd/23/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1285,8 +1214,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1315,20 +1243,16 @@ const exampleTrade = [
             set: "dvd",
             set_name: "Duel Decks Anthology: Divine vs. Demonic",
             set_type: "duel_deck",
-            set_uri:
-                "https://api.scryfall.com/sets/02a67a0d-b4da-4ca9-be01-b0d78dc62ed0",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Advd&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/02a67a0d-b4da-4ca9-be01-b0d78dc62ed0",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Advd&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/dvd?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/69cf2f25-dc3e-457d-9d50-22a966a20d5e/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/69cf2f25-dc3e-457d-9d50-22a966a20d5e/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "23",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1342,13 +1266,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.20", usd_foil: null, eur: null, tix: null },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=394007",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=394007",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1371,8 +1293,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2011-07-15",
             uri: "https://api.scryfall.com/cards/3992dc7c-61c0-4d5f-9c32-8febfad4ef6d",
-            scryfall_uri:
-                "https://scryfall.com/card/m12/202/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/m12/202/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1388,8 +1309,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1418,13 +1338,10 @@ const exampleTrade = [
             set: "m12",
             set_name: "Magic 2012",
             set_type: "core",
-            set_uri:
-                "https://api.scryfall.com/sets/5cdd2643-229c-4441-a62a-c34e4b531e1c",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Am12&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/5cdd2643-229c-4441-a62a-c34e4b531e1c",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Am12&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/m12?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/3992dc7c-61c0-4d5f-9c32-8febfad4ef6d/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/3992dc7c-61c0-4d5f-9c32-8febfad4ef6d/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "202",
@@ -1445,13 +1362,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.14", usd_foil: "0.11", eur: "0.06", tix: "0.03" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=221520",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=221520",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1474,8 +1389,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2010-07-16",
             uri: "https://api.scryfall.com/cards/ef2caa08-1b25-4ace-9204-068777f82e69",
-            scryfall_uri:
-                "https://scryfall.com/card/m11/201/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/m11/201/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1491,8 +1405,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1521,20 +1434,16 @@ const exampleTrade = [
             set: "m11",
             set_name: "Magic 2011",
             set_type: "core",
-            set_uri:
-                "https://api.scryfall.com/sets/485d2468-18c8-42a4-9482-ca1c51e0470e",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Am11&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/485d2468-18c8-42a4-9482-ca1c51e0470e",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Am11&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/m11?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/ef2caa08-1b25-4ace-9204-068777f82e69/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/ef2caa08-1b25-4ace-9204-068777f82e69/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "201",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1548,13 +1457,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.11", usd_foil: "0.30", eur: "0.08", tix: "0.01" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=206325",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=206325",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1577,8 +1484,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2009-07-17",
             uri: "https://api.scryfall.com/cards/16860147-14fd-40bc-804d-0716a77294ad",
-            scryfall_uri:
-                "https://scryfall.com/card/m10/206/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/m10/206/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1594,8 +1500,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1624,20 +1529,16 @@ const exampleTrade = [
             set: "m10",
             set_name: "Magic 2010",
             set_type: "core",
-            set_uri:
-                "https://api.scryfall.com/sets/0dba38a9-6b9d-4768-9831-4e03e8970a0b",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Am10&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/0dba38a9-6b9d-4768-9831-4e03e8970a0b",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Am10&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/m10?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/16860147-14fd-40bc-804d-0716a77294ad/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/16860147-14fd-40bc-804d-0716a77294ad/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "206",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1651,13 +1552,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.11", usd_foil: "0.33", eur: "0.10", tix: "0.01" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=191245",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=191245",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1680,8 +1579,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2009-04-10",
             uri: "https://api.scryfall.com/cards/abbb7db8-2290-41bc-be5a-507604ad08e8",
-            scryfall_uri:
-                "https://scryfall.com/card/ddc/23/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/ddc/23/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1697,8 +1595,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1727,20 +1624,16 @@ const exampleTrade = [
             set: "ddc",
             set_name: "Duel Decks: Divine vs. Demonic",
             set_type: "duel_deck",
-            set_uri:
-                "https://api.scryfall.com/sets/4a1b5533-e4a3-456e-9fb1-53e754402c23",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Addc&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/4a1b5533-e4a3-456e-9fb1-53e754402c23",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Addc&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/ddc?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/abbb7db8-2290-41bc-be5a-507604ad08e8/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/abbb7db8-2290-41bc-be5a-507604ad08e8/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "23",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1754,13 +1647,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.07", usd_foil: null, eur: "0.09", tix: "0.03" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=196991",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=196991",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1783,8 +1674,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2007-07-13",
             uri: "https://api.scryfall.com/cards/762d12cd-a517-4604-97ac-b93d1a94a757",
-            scryfall_uri:
-                "https://scryfall.com/card/10e/311/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/10e/311/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1800,8 +1690,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1830,20 +1719,16 @@ const exampleTrade = [
             set: "10e",
             set_name: "Tenth Edition",
             set_type: "core",
-            set_uri:
-                "https://api.scryfall.com/sets/a66a6124-0d81-488d-b080-91f5ba7fbad0",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3A10e&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/a66a6124-0d81-488d-b080-91f5ba7fbad0",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3A10e&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/10e?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/762d12cd-a517-4604-97ac-b93d1a94a757/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/762d12cd-a517-4604-97ac-b93d1a94a757/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "311",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1857,13 +1742,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.14", usd_foil: "0.23", eur: "0.03", tix: "0.01" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=129466",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=129466",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1886,8 +1769,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2005-07-29",
             uri: "https://api.scryfall.com/cards/476f1233-7474-4c01-8e8b-be642a638a61",
-            scryfall_uri:
-                "https://scryfall.com/card/9ed/287/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/9ed/287/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -1903,8 +1785,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -1933,20 +1814,16 @@ const exampleTrade = [
             set: "9ed",
             set_name: "Ninth Edition",
             set_type: "core",
-            set_uri:
-                "https://api.scryfall.com/sets/e70c8572-4732-4e92-a140-b4e3c1c84c93",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3A9ed&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/e70c8572-4732-4e92-a140-b4e3c1c84c93",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3A9ed&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/9ed?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/476f1233-7474-4c01-8e8b-be642a638a61/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/476f1233-7474-4c01-8e8b-be642a638a61/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "287",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -1960,13 +1837,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.15", usd_foil: "0.59", eur: "0.08", tix: "0.01" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=83449",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=83449",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -1989,8 +1864,7 @@ const exampleTrade = [
             lang: "en",
             released_at: "2004-02-06",
             uri: "https://api.scryfall.com/cards/4a11d101-2e82-42d5-b4a1-8f0c520441ab",
-            scryfall_uri:
-                "https://scryfall.com/card/dst/92/angels-feather?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/dst/92/angels-feather?utm_source=api",
             layout: "normal",
             highres_image: true,
             image_uris: {
@@ -2006,8 +1880,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -2036,20 +1909,16 @@ const exampleTrade = [
             set: "dst",
             set_name: "Darksteel",
             set_type: "expansion",
-            set_uri:
-                "https://api.scryfall.com/sets/e29cb2dd-1345-4032-abfe-e52e8c8ce074",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Adst&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/e29cb2dd-1345-4032-abfe-e52e8c8ce074",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Adst&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/dst?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/4a11d101-2e82-42d5-b4a1-8f0c520441ab/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/4a11d101-2e82-42d5-b4a1-8f0c520441ab/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "92",
             digital: false,
             rarity: "uncommon",
-            flavor_text:
-                "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
+            flavor_text: "If taken, it cuts the hand that clutches it. If given, it heals the hand that holds it.",
             card_back_id: "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
             artist: "Alan Pollack",
             artist_ids: ["70c20ea3-5ad6-4082-a337-6e994ae5828e"],
@@ -2063,13 +1932,11 @@ const exampleTrade = [
             edhrec_rank: 7823,
             prices: { usd: "0.14", usd_foil: "0.41", eur: "0.10", tix: "0.01" },
             related_uris: {
-                gatherer:
-                    "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=72686",
+                gatherer: "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=72686",
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
@@ -2090,8 +1957,7 @@ const exampleTrade = [
             lang: "es",
             released_at: "2011-01-01",
             uri: "https://api.scryfall.com/cards/4e3140ee-8bba-416f-a4d1-0eadc3fec8a3",
-            scryfall_uri:
-                "https://scryfall.com/card/ps11/184/es/pluma-de-%C3%A1ngel?utm_source=api",
+            scryfall_uri: "https://scryfall.com/card/ps11/184/es/pluma-de-%C3%A1ngel?utm_source=api",
             layout: "normal",
             highres_image: false,
             image_uris: {
@@ -2107,8 +1973,7 @@ const exampleTrade = [
             mana_cost: "{2}",
             cmc: 2,
             type_line: "Artifact",
-            oracle_text:
-                "Whenever a player casts a white spell, you may gain 1 life.",
+            oracle_text: "Whenever a player casts a white spell, you may gain 1 life.",
             colors: [],
             color_identity: [],
             legalities: {
@@ -2137,13 +2002,10 @@ const exampleTrade = [
             set: "ps11",
             set_name: "Salvat 2011",
             set_type: "box",
-            set_uri:
-                "https://api.scryfall.com/sets/97fe7b09-5b23-4fcb-a9ae-6803c5314382",
-            set_search_uri:
-                "https://api.scryfall.com/cards/search?order=set&q=e%3Aps11&unique=prints",
+            set_uri: "https://api.scryfall.com/sets/97fe7b09-5b23-4fcb-a9ae-6803c5314382",
+            set_search_uri: "https://api.scryfall.com/cards/search?order=set&q=e%3Aps11&unique=prints",
             scryfall_set_uri: "https://scryfall.com/sets/ps11?utm_source=api",
-            rulings_uri:
-                "https://api.scryfall.com/cards/4e3140ee-8bba-416f-a4d1-0eadc3fec8a3/rulings",
+            rulings_uri: "https://api.scryfall.com/cards/4e3140ee-8bba-416f-a4d1-0eadc3fec8a3/rulings",
             prints_search_uri:
                 "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3d0d4ba4-d5aa-4d9f-89ab-46687637fecf&unique=prints",
             collector_number: "184",
@@ -2165,8 +2027,7 @@ const exampleTrade = [
                 tcgplayer_decks:
                     "https://decks.tcgplayer.com/magic/deck/search?contains=Angel%27s+Feather&page=1&partner=Scryfall&utm_campaign=affiliate&utm_medium=scryfall&utm_source=scryfall",
                 edhrec: "https://edhrec.com/route/?cc=Angel%27s+Feather",
-                mtgtop8:
-                    "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
+                mtgtop8: "https://mtgtop8.com/search?MD_check=1&SB_check=1&cards=Angel%27s+Feather",
             },
             purchase_uris: {
                 tcgplayer:
