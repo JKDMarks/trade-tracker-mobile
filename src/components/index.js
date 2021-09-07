@@ -1,4 +1,5 @@
 import Card from "./Card";
 import Overlay from "./Overlay";
+import Settings from "./Settings";
 
-export { Card, Overlay };
+export { Card, Overlay, Settings };

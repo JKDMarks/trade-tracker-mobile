@@ -57,7 +57,7 @@ input {
 }
 
 .ui.active.modal {
-    height: 350px;
+    height: 95%;
     width: 90%;
     margin: 0 auto;
     position: relative;

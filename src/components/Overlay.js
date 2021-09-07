@@ -23,9 +23,13 @@ function Overlay({
 }) {
     if (card && Object.entries(card).length > 0) {
         const { editions, setIdx, isFoil, quantity } = card;
-        // console.log(setIdx, isFoil, isLeft)
 
         const cardData = editions[setIdx];
+        const {
+            scryfall_uri,
+            purchase_uris: { tcgplayer },
+            related_uris: { edhrec },
+        } = cardData;
         const cardImageUrl =
             cardData?.image_uris?.border_crop ||
             cardData?.card_faces?.[0]?.image_uris?.border_crop;
@@ -194,6 +198,24 @@ function Overlay({
                                     </Grid.Row>
                                 )
                             }
+
+                            <Grid.Row columns={3}>
+                                <Grid.Column textAlign="center">
+                                    <a target="_blank" href={scryfall_uri}>
+                                        Scryfall
+                                    </a>
+                                </Grid.Column>
+                                <Grid.Column textAlign="center">
+                                    <a target="_blank" href={tcgplayer}>
+                                        TCGplayer
+                                    </a>
+                                </Grid.Column>
+                                <Grid.Column textAlign="center">
+                                    <a target="_blank" href={edhrec}>
+                                        EDHREC
+                                    </a>
+                                </Grid.Column>
+                            </Grid.Row>
                         </Grid>
                     ) : null}
                 </Modal.Content>

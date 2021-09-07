@@ -6,7 +6,7 @@ import uuid from "uuid";
 import { useCookies } from "react-cookie";
 
 import { useTrades } from "./useCustom";
-import { Card, Overlay } from "./components";
+import { Card, Overlay, Settings } from "./components";
 
 // import { exampleTrade } from './helpers'
 //
@@ -37,6 +37,8 @@ function App() {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
     const [isOverlayAdding, setIsOverlayAdding] = useState(true); // true IF ADDING A CARD, false IF EDITING A CARD
     const [overlayCard, setOverlayCard] = useState({});
+
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const [cardImg, setCardImg] = useState(null);
 
@@ -300,6 +302,15 @@ function App() {
               }px - 182px)`
             : "calc(100vh - 182px)";
 
+    ////////// SETINGS FUNCTIONS //////////
+    const openSettings = () => {
+        setIsSettingsOpen(true);
+    };
+
+    const closeSettings = () => {
+        setIsSettingsOpen(false);
+    };
+
     ////////// JSX //////////
     return (
         <div className="App">
@@ -327,16 +338,27 @@ function App() {
                         <h1>Trade Tracker</h1>
                     </Grid.Column>
                     <Grid.Column width={2}>
+                        <Icon
+                            name="cog"
+                            size="large"
+                            // color="black"
+                            style={{
+                                position: "absolute",
+                                top: "25%",
+                                right: "10%",
+                            }}
+                            onClick={openSettings}
+                        />
                         {/*
-              // 'INFO ABOUT APP AND ME'
-              <Button
-                content='ℹ'
-                color='blue'
-                className='p-0 m-0 vert-ctr'
-                style={{width: '15px', height: '15px'}}
-                onClick={() => console.log('hi')}
-                />
-            */}
+                        // 'INFO ABOUT APP AND ME'
+                        <Button
+                            content='ℹ'
+                            color='blue'
+                            className='p-0 m-0 vert-ctr'
+                            style={{width: '15px', height: '15px'}}
+                            onClick={() => console.log('hi')}
+                            />
+                        */}
                     </Grid.Column>
                 </Grid.Row>
 
@@ -470,6 +492,8 @@ function App() {
                 deleteFromTrade={deleteFromTrade}
                 setCardImg={setCardImg}
             />
+
+            <Settings isOpen={isSettingsOpen} closeSettings={closeSettings} />
 
             {cardImg ? (
                 <div
