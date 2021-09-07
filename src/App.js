@@ -272,8 +272,15 @@ function App() {
 
     const deleteFromTrade = (card) => {
         deleteCard(card);
-        setIsOverlayOpen(false);
-        setOverlayCard({});
+        closeOverlay();
+        // setIsOverlayOpen(false);
+        // setOverlayCard({});
+    };
+
+    const switchSideInTrade = (card) => {
+        const cardCopy = { ...card, isLeft: !card.isLeft };
+        updateCard(cardCopy);
+        closeOverlay();
     };
 
     const barHeight = () =>
@@ -448,6 +455,7 @@ function App() {
                 toggleFoil={toggleFoil}
                 addToTrade={addToTrade}
                 deleteFromTrade={deleteFromTrade}
+                switchSideInTrade={switchSideInTrade}
                 setCardImg={setCardImg}
             />
 

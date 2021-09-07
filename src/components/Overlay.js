@@ -12,6 +12,7 @@ function Overlay({
     toggleFoil,
     addToTrade,
     deleteFromTrade,
+    switchSideInTrade,
     setCardImg,
 }) {
     const getCardImageUrl = (cardData) =>
@@ -73,11 +74,7 @@ function Overlay({
                                                                 <img
                                                                     src={getCardImageUrl(edition)}
                                                                     alt="card version preview"
-                                                                    style={{
-                                                                        // position: "relative",
-                                                                        // top: "-5px",
-                                                                        maxHeight: "60px",
-                                                                    }}
+                                                                    style={{ maxHeight: "60px" }}
                                                                 />
                                                             </Grid.Column>
                                                             <Grid.Column width={3}>
@@ -108,7 +105,7 @@ function Overlay({
                                             type="number"
                                             value={quantity}
                                             className="m-0"
-                                            style={{ maxWidth: "25%" }}
+                                            style={{ maxWidth: "25%", height: "25px" }}
                                             onChange={(e) => editCardQuantity(card, e.target.value)}
                                         />
                                         &nbsp; Quantity
@@ -155,20 +152,30 @@ function Overlay({
                                         </Grid.Column>
                                     </Grid.Row>
                                 ) : (
-                                    <Grid.Row>
-                                        <Grid.Column textAlign="center">
-                                            <Button
-                                                color="red"
-                                                content="Delete From Trade"
-                                                onClick={() => {
-                                                    const confirmDelete = window.confirm("Delete this card?");
-                                                    if (confirmDelete) {
-                                                        deleteFromTrade(card);
-                                                    }
-                                                }}
-                                            />
-                                        </Grid.Column>
-                                    </Grid.Row>
+                                    <Fragment>
+                                        <Grid.Row>
+                                            <Grid.Column textAlign="center">
+                                                <Button
+                                                    color="red"
+                                                    content="Delete From Trade"
+                                                    onClick={() => {
+                                                        const confirmDelete = window.confirm("Delete this card?");
+                                                        if (confirmDelete) {
+                                                            deleteFromTrade(card);
+                                                        }
+                                                    }}
+                                                />
+
+                                                <Button
+                                                    color="yellow"
+                                                    content="Switch Side"
+                                                    onClick={() => {
+                                                        switchSideInTrade(card);
+                                                    }}
+                                                />
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                    </Fragment>
                                 )
                             }
 
