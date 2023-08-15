@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
+import { v1 as uuid } from "uuid";
+
 import { Grid, Button, Search, Icon } from "semantic-ui-react";
-import uuid from "uuid";
 import { useCookies } from "react-cookie";
 
 import { useTrades } from "./useCustom";
