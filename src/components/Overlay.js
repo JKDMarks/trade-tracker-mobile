@@ -151,11 +151,12 @@ function Overlay({
                                     </Grid.Row>
                                 ) : (
                                     <Fragment>
-                                        <Grid.Row>
+                                        <Grid.Row style={{ paddingBottom: "0" }}>
                                             <Grid.Column textAlign="center">
                                                 <Button
                                                     color="red"
                                                     content="Delete From Trade"
+                                                    style={{ marginTop: "5px" }}
                                                     onClick={() => {
                                                         const confirmDelete = window.confirm("Delete this card?");
                                                         if (confirmDelete) {
@@ -167,9 +168,20 @@ function Overlay({
                                                 <Button
                                                     color="yellow"
                                                     content="Switch Side"
+                                                    style={{ marginTop: "5px" }}
                                                     onClick={() => {
                                                         switchSideInTrade(card);
                                                     }}
+                                                />
+                                            </Grid.Column>
+                                        </Grid.Row>
+                                        <Grid.Row style={{ paddingTop: "5px" }}>
+                                            <Grid.Column textAlign="center">
+                                                <Button
+                                                    color="green"
+                                                    content="OK"
+                                                    style={{ width: "50%" }}
+                                                    onClick={closeOverlay}
                                                 />
                                             </Grid.Column>
                                         </Grid.Row>

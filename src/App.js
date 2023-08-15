@@ -51,7 +51,8 @@ function App() {
             const resp = await fetch("https://api.scryfall.com/catalog/card-names");
             const json = await resp.json();
 
-            setAllCardNames(json.data);
+            // Exclude Alchemy cards (formatted as e.g. A-Acererak on scryfall)
+            setAllCardNames(json.data.filter((cardName) => !cardName.startsWith("A-")));
             setIsLoading(false);
         }
 
@@ -419,7 +420,7 @@ function App() {
                             <Card
                                 key={card.id}
                                 card={card}
-                                isLeft={true}
+                                // isLeft={true}
                                 openOverlay={openOverlay}
                                 cardPrice={cardPrice}
                             />
@@ -436,7 +437,7 @@ function App() {
                             <Card
                                 key={card.id}
                                 card={card}
-                                isLeft={false}
+                                // isLeft={false}
                                 openOverlay={openOverlay}
                                 cardPrice={cardPrice}
                             />
