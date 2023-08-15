@@ -6,7 +6,7 @@ import { v1 as uuid } from "uuid";
 import { Grid, Button, Search, Icon } from "semantic-ui-react";
 import { useCookies } from "react-cookie";
 
-import { useTrades } from "./useCustom";
+import { useTrades } from "./useTrades";
 import { Card, Overlay, Settings } from "./components";
 
 // import { exampleTrade } from './helpers'
