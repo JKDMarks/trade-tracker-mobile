@@ -46,6 +46,13 @@ input {
     padding: 0 5px;
 }
 
+.vert-btm {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    padding: 0 5px;
+}
+
 .ctr-txt {
     text-align: center !important;
 }
