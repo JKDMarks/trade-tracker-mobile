@@ -30,8 +30,6 @@ function Overlay({
 
         const cardImageUrl = getCardImageUrl(cardData);
 
-        console.log("editions", editions);
-
         return (
             <Modal className="ctr-txt" open={isOpen} onClose={closeOverlay} closeIcon closeOnDimmerClick={false}>
                 <Modal.Content className="vert-ctr-parent">

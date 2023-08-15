@@ -21,7 +21,7 @@ import { Card, Overlay, Settings } from "./components";
 
 function App() {
     ////////// useState DECLARATIONS //////////
-    const [cookies, setCookie, removeCookie] = useCookies(["trades"]);
+    const [cookies, setCookie] = useCookies(["trades"]);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -91,6 +91,7 @@ function App() {
 
             fetchCards();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
